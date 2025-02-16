@@ -1,4 +1,8 @@
-;; Measure and display startup time.
+;; Early initialization settings for Emacs
+
+;; ===================
+;; Measure and display startup time
+;; ===================
 (defun efs/display-startup-time ()
   "Display the Emacs startup time and number of garbage collections."
   (message "Emacs loaded in %s with %d garbage collections."
@@ -9,6 +13,9 @@
 
 (add-hook 'emacs-startup-hook #'efs/display-startup-time)
 
+;; ===================
+;; Optimize garbage collection
+;; ===================
 ;; Temporarily increase the garbage collection threshold for faster startup.
 (setq gc-cons-threshold most-positive-fixnum)
 
@@ -16,7 +23,9 @@
           (lambda ()
             (setq gc-cons-threshold (* 1000 1000 8))))  ;; Reset to 8 MB
 
-;; Frame and window settings.
+;; ===================
+;; Frame and window settings
+;; ===================
 (setq frame-resize-pixelwise t
       frame-inhibit-implied-resize t
       frame-title-format '("%b")
@@ -26,13 +35,16 @@
 ;; Remove the scratch screen message.
 (setq initial-scratch-message "")
 
+;; ===================
+;; Disable various file and UI features
+;; ===================
 ;; Disable backup files
 (setq make-backup-files nil)
 
 ;; Disable auto-save files
 (setq auto-save-default nil)
 
-;; Disable lockfiles (these are the `.#` files)
+;; Disable lockfiles (those prefixed with `.#`)
 (setq create-lockfiles nil)
 
 ;; Disable the toolbar
@@ -51,24 +63,29 @@
       use-file-dialog nil
       use-short-answers t)
 
-
-;; Enable pixel-scroll precision mode.
+;; ===================
+;; Enable pixel-scroll precision mode
+;; ===================
 (use-package emacs
   :init
   (pixel-scroll-precision-mode 1))
 
-;; Disable unnecessary UI features.
+;; ===================
+;; Additional UI settings
+;; ===================
 (setq ring-bell-function 'ignore)  ;; Disable the bell sound
 (setq visible-bell nil)  ;; Disable visual bell
 
-
+;; ===================
+;; Optimize file handling on startup
+;; ===================
 ;; Disable file name handlers for faster startup.
 (setq file-name-handler-alist nil)
 (add-hook 'emacs-startup-hook
           (lambda ()
             (setq file-name-handler-alist (default-value 'file-name-handler-alist))))
 
-(setq package-enable-at-startup nil) ;; Prevent package.el from auto-loading
-
+;; Prevent package.el from auto-loading
+(setq package-enable-at-startup nil)
 
 (provide 'early-init)

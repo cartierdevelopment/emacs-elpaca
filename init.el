@@ -41,6 +41,9 @@
   (elpaca-use-package-mode))
 (setq use-package-always-ensure t)
 
+;; Save the command history
+(savehist-mode 1)
+
 ;; theme
 (defcustom my/modus-default-theme 'modus-vivendi-tinted
   "Default Modus theme to load on startup."
@@ -124,21 +127,20 @@ This is particularly useful under macOS, where GUI apps do not inherit the shell
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
 
-(use-package savehist
-  :ensure nil
-  :init
-  (savehist-mode))
+(use-package vertico
+  :ensure t
+  :config
+  (setq vertico-cycle t)
+  (setq vertico-resize nil)
+  (vertico-mode 1))
 
 (use-package marginalia
-  :demand t
-  :after vertico
-  :custom
-  (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
-  :init
+  :ensure t
+  :config
   (marginalia-mode))
 
 (use-package consult
-  :demand t
+  :ensure t
   :bind
   (("C-x b" . consult-buffer)       ;; Remap to consult-buffer
    ("M-s r" . consult-ripgrep)      ;; Ripgrep search
@@ -247,11 +249,6 @@ This is particularly useful under macOS, where GUI apps do not inherit the shell
     (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
     (define-key eglot-mode-map (kbd "C-c a") 'eglot-code-actions)))
 
-(use-package ivy
-  :ensure t
-  :config
-  (ivy-mode 1))
-
 (use-package projectile
   :demand t
   :init
@@ -264,9 +261,8 @@ This is particularly useful under macOS, where GUI apps do not inherit the shell
    ("C-c p d" . projectile-dired))        ;; Dired in the project
   :config
   ;; Optional settings:
-  (setq projectile-completion-system 'ivy)  ;; Use Ivy for completion
   (setq projectile-enable-caching t)        ;; Enable caching for faster access
-  (setq projectile-project-search-path '("~/Projects/" "~/Workspace/")))  ;; Set your project directories
+  (setq projectile-project-search-path '("~/Development/GO" "~/Workspace/")))  ;; Set your project directories
 
 ;; Org mode
 
