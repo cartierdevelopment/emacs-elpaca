@@ -45,6 +45,9 @@
 (savehist-mode 1)
 
 ;; theme
+;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+;;(load-theme 'dracula t)
+
 (defcustom my/modus-default-theme 'modus-vivendi-tinted
   "Default Modus theme to load on startup."
   :type 'symbol
@@ -71,13 +74,15 @@
           (agenda-date . (variable-pitch regular 1.3))
           (t . (regular 1.15)))))
 
+
+;; remove border
+(setq modus-themes-common-palette-overrides
+      '((border-mode-line-active bg-mode-line-active)
+        (border-mode-line-inactive bg-mode-line-inactive)))
+
 ;; Load the default theme on startup.
 (load-theme my/modus-default-theme :no-confirm)
 
-(use-package spacious-padding
-  :ensure t
-  :config
-  (spacious-padding-mode 1)) ;; Enable spacious padding globally
 
 ;; Paid font
 (set-face-attribute 'default nil
@@ -248,21 +253,6 @@ This is particularly useful under macOS, where GUI apps do not inherit the shell
   (with-eval-after-load 'eglot
     (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
     (define-key eglot-mode-map (kbd "C-c a") 'eglot-code-actions)))
-
-(use-package projectile
-  :demand t
-  :init
-  (projectile-mode +1)  ;; Enable projectile mode globally
-  :bind
-  (("C-c p f" . projectile-find-file)   ;; Find file in the project
-   ("C-c p p" . projectile-switch-project) ;; Switch between projects
-   ("C-c p g" . projectile-grep)         ;; Search for text in the project
-   ("C-c p b" . projectile-switch-to-buffer) ;; Switch to buffer in the project
-   ("C-c p d" . projectile-dired))        ;; Dired in the project
-  :config
-  ;; Optional settings:
-  (setq projectile-enable-caching t)        ;; Enable caching for faster access
-  (setq projectile-project-search-path '("~/Development/GO" "~/Workspace/")))  ;; Set your project directories
 
 ;; Org mode
 
