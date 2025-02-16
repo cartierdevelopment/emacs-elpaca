@@ -1,0 +1,95 @@
+(defvar elpaca-installer-version 0.9)
+(defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
+(defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+(defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+(defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+                              :ref nil :depth 1 :inherit ignore
+                              :files (:defaults "elpaca-test.el" (:exclude "extensions"))
+                              :build (:not elpaca--activate-package)))
+(let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+       (build (expand-file-name "elpaca/" elpaca-builds-directory))
+       (order (cdr elpaca-order))
+       (default-directory repo))
+  (add-to-list 'load-path (if (file-exists-p build) build repo))
+  (unless (file-exists-p repo)
+    (make-directory repo t)
+    (when (< emacs-major-version 28) (require 'subr-x))
+    (condition-case-unless-debug err
+        (if-let* ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                  ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
+                                                  ,@(when-let* ((depth (plist-get order :depth)))
+                                                      (list (format "--depth=%d" depth) "--no-single-branch"))
+                                                  ,(plist-get order :repo) ,repo))))
+                  ((zerop (call-process "git" nil buffer t "checkout"
+                                        (or (plist-get order :ref) "--"))))
+                  (emacs (concat invocation-directory invocation-name))
+                  ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+                                        "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+                  ((require 'elpaca))
+                  ((elpaca-generate-autoloads "elpaca" repo)))
+            (progn (message "%s" (buffer-string)) (kill-buffer buffer))
+          (error "%s" (with-current-buffer buffer (buffer-string))))
+      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+  (unless (require 'elpaca-autoloads nil t)
+    (require 'elpaca)
+    (elpaca-generate-autoloads "elpaca" repo)
+    (load "./elpaca-autoloads")))
+(add-hook 'after-init-hook #'elpaca-process-queues)
+(elpaca `(,@elpaca-order))
+
+;; Paid font
+(set-face-attribute 'default nil
+                    :family "Berkeley Mono"
+                    :height 160
+                    :weight 'normal)
+
+;; Package
+(elpaca vertico
+  (add-hook 'after-init-hook #'vertico-mode))
+
+(elpaca (marginalia :after vertico)
+  (add-hook 'vertico-mode-hook #'marginalia-mode))
+
+(elpaca orderless)
+
+;; Set up orderless as a completion style
+(setq completion-styles '(orderless)
+      completion-category-defaults nil
+      completion-category-overrides '((file (styles partial-completion))))
+
+;; Languages
+
+;; Install and configure js2-mode for Node.js development
+(use-package js2-mode
+  :ensure t
+  :mode ("\\.js\\'" . js2-mode)
+  :hook (js2-mode . (lambda ()
+                      (setq js-indent-level 2)
+                      (setq js2-basic-offset 2))))
+
+;; Install and configure PHP mode
+(use-package php-mode
+  :ensure t
+  :mode ("\\.php\\'" . php-mode))
+
+;; Install and configure go-guru for advanced Go code navigation.
+(use-package go-guru
+  :ensure t
+  :commands go-guru)
+
+;; Install and configure Go mode
+(use-package go-mode
+  :ensure t
+  :defer t
+  :hook ((go-mode . (lambda ()
+                      (add-hook 'before-save-hook 'gofmt-before-save nil t)))) ;; Auto-format Go files before saving
+  :config
+  (setq tab-width 8) ;; Set tab width to 8 spaces
+  (setq gofmt-command "goimports") ;; Use goimports instead of gofmt
+  (setq indent-tabs-mode 1)) ;; Use tabs for indentation
+
+;; Enable Flycheck for Go files
+(use-package flycheck
+  :ensure t
+  :hook (go-mode . flycheck-mode))
+

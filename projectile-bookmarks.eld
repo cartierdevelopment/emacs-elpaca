@@ -1,0 +1,1 @@
+("~/org/" "~/Development/GO/transactions-cds/" "~/Development/GO/zetaglobal/" "~/Development/GO/transactions-cds/functions/")

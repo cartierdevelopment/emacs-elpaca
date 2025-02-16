@@ -1,0 +1,1 @@
+/Users/paulcartier/.emacs.d/elpaca/repos/go-mode/go-mode.el
