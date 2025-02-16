@@ -332,6 +332,11 @@ This is particularly useful under macOS, where GUI apps do not inherit the shell
            ,(my/org-capture-template "WAIT %^{Title} %^g" "tasks.org" "Wishlist")
            :empty-lines-after 1))))
 
+(use-package markdown-mode
+  :ensure t
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown"))
+
 (elpaca denote
   ;; Hooks for Denote functionality
   (add-hook 'text-mode-hook 'denote-fontify-links-mode-maybe)

@@ -13,12 +13,12 @@ tasks.org Pay Ally Bank :home:finance:recurring:øˆ€€…   TODO
 tasks.org Pay Apple Card :home:finance:recurring:øˆ€€†   TODO
 tasks.org Lowes Credit Cardøˆ€€‡   TODO
 tasks.org Call Enbrel Pharmacy 2036889450 #2øˆ€€ˆ   DONE"))
-(setq ivy-history '(#("cds" 0 3 (ivy-index 2)) #("functions/main.go" 0 17 (ivy-index 9)) #("~/Development/GO/transactions-cds/" 0 34 (ivy-index 1))))
+(setq ivy-history '(#("aws" 0 3 (ivy-index 3)) #("cds" 0 3 (ivy-index 2)) #("functions/main.go" 0 17 (ivy-index 9)) #("~/Development/GO/transactions-cds/" 0 34 (ivy-index 1))))
 (setq consult--buffer-history '("main.goøˆ€€‚"))
-(setq denote-search-query-history '("cds"))
-(setq denote-keyword-history '("git" "cds" "meetings"))
+(setq denote-search-query-history '("time" "cds"))
+(setq denote-keyword-history '("aws" "git" "cds" "meetings"))
 (setq org-tags-history '("cds"))
-(setq extended-command-history '(#("org-agenda-list" 0 15 (ivy-index 0)) #("denote-open-or-create" 0 21 (ivy-index 69)) #("org-agenda" 0 10 (ivy-index 128)) #("org-agenda-schedule" 0 19 (ivy-index 7)) #("consult-org-agenda" 0 18 (ivy-index 2)) #("projectile-switch-project" 0 25 (ivy-index 6)) "projectile-add-known-project" "project-switch-project" "project-switch-project" "projectile-add-known-project" "project-switch-project" "denote-search"))
+(setq extended-command-history '(#("denote-search" 0 13 (ivy-index 0)) #("modus-themes-toggle" 0 19 (ivy-index 5)) #("org-agenda" 0 10 (ivy-index 8)) #("org-agenda-list" 0 15 (ivy-index 0)) #("denote-open-or-create" 0 21 (ivy-index 69)) #("org-agenda-schedule" 0 19 (ivy-index 7)) #("consult-org-agenda" 0 18 (ivy-index 2)) #("projectile-switch-project" 0 25 (ivy-index 6)) "projectile-add-known-project" "project-switch-project" "project-switch-project" "projectile-add-known-project" "project-switch-project"))
 (setq file-name-history '("~/Development/GO/zetaglobal/" "~/Development/GO/transactions-cds/" "~/Development/GO/transactions-cds/functions/" "~/Development/GO/transactions-cds/functions/main.go" "~/Development/GO/zeta-newsletters/functions/getPreferences/main.go"))
 (setq buffer-name-history '("*scratch*" "*Messages*"))
 (setq projectile-project-command-history '#s(hash-table test equal))
