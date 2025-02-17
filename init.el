@@ -227,24 +227,25 @@
   :ensure nil
   :bind ("C-c c" . org-capture)
   :config
-  (defun my/org-capture-template (title file headline &optional extra-properties)
-    "Generate an Org capture template with TITLE, FILE, HEADLINE, and EXTRA-PROPERTIES."
+  (defun my/org-capture-template (title &optional extra-properties)
+    "Generate an Org capture template with TITLE and EXTRA-PROPERTIES."
     (concat "* " title "\n"
             ":PROPERTIES:\n"
             ":CAPTURED: %U\n"
             ":CUSTOM_ID: h:%(format-time-string \"%Y%m%dT%H%M%S\")\n"
-            (if extra-properties extra-properties "")
+            (if (and extra-properties (not (string-empty-p extra-properties)))
+                (concat extra-properties "\n") "")
             ":END:\n\n"
             "%a\n%i%?"))
 
   (setq org-capture-templates
         `(("u" "Unprocessed" entry
            (file+headline "~/org/tasks.org" "Unprocessed")
-           ,(my/org-capture-template "TODO %^{Title} %^g" "tasks.org" "Unprocessed")
+           ,(my/org-capture-template "TODO %^{Title} %^g")
            :empty-lines-after 1)
           ("w" "Wishlist" entry
-           (file+olp "~/org/tasks.org" "Wishlist")
-           ,(my/org-capture-template "WAIT %^{Title} %^g" "tasks.org" "Wishlist")
+           (file+olp "~/org/tasks.org" ("Wishlist"))
+           ,(my/org-capture-template "WAIT %^{Title} %^g")
            :empty-lines-after 1))))
 
 (use-package markdown-mode
