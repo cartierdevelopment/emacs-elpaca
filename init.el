@@ -218,17 +218,10 @@
   :ensure nil  ; Built-in package
   :init
   (setq org-imenu-depth 7)
-  (add-to-list 'safe-local-variable-values '(org-hide-leading-stars . t))
-  (add-to-list 'safe-local-variable-values '(org-hide-macro-markers . t))
   :config
   ;; General Org settings.
   (setq org-agenda-files '("~/org/tasks.org"))  ; Set specific agenda file
-  (setq org-todo-keywords '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCEL(c!)" "DONE(d!)")))
-
-  ;; Tags.
-  (setq org-tag-alist nil)
-  (setq org-auto-align-tags nil)
-  (setq org-tags-column 0))
+  (setq org-todo-keywords '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCEL(c!)" "DONE(d!)"))))
 
 (use-package org-capture
   :ensure nil
