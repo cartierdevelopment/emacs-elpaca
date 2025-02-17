@@ -126,15 +126,16 @@
 
 ;; Install and configure Go mode
 (elpaca go-mode
-  (add-hook 'go-mode-hook (lambda ()
-                            (add-hook 'before-save-hook 'gofmt-before-save nil t)))
+  (add-hook 'go-mode-hook
+            (lambda ()
+              (add-hook 'before-save-hook #'gofmt-before-save nil t)))
   (setq-default tab-width 8
                 gofmt-command "goimports"
                 indent-tabs-mode t))
 
 ;; Enable Flycheck for Go files
 (elpaca flycheck
-  (add-hook 'go-mode-hook 'flycheck-mode))
+  (add-hook 'go-mode-hook #'flycheck-mode))
 
 (elpaca dape
   (setq dape-buffer-window-arrangement 'right
@@ -209,7 +210,6 @@
 ;; Org mode
 
 (elpaca org
-  :ensure nil  ; Built-in package
   :init
   (setq org-imenu-depth 7)
   :config
@@ -318,7 +318,6 @@
     (define-key denote-menu-mode-map (kbd "e") 'denote-menu-export-to-dired)))
 
 (elpaca gptel
-  :defer t  ;; Load only when first used
   )
 
 ;; Custom functions and bindings
