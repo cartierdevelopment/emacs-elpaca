@@ -47,51 +47,18 @@
 ;; Main window hacks
 (set-fringe-mode 0)
 
-(setq frame-resize-pixelwise t)
-(add-to-list 'default-frame-alist '(undecorated-round . t))
-
 (add-hook 'window-configuration-change-hook
           (lambda () (set-window-margins nil 2 2))) ;; Adjust values as needed
 
-;; theme
+;; custom theme
 ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 ;;(load-theme 'dracula t)
 
-(defcustom my/modus-default-theme 'modus-vivendi-tinted
-  "Default Modus theme to load on startup."
-  :type 'symbol
-  :group 'modus-themes)
-
-(use-package modus-themes
-  :ensure (:wait t)
-  :bind (("<f5>" . modus-themes-toggle)
-         ("C-<f5>" . modus-themes-select)
-         ("M-<f5>" . modus-themes-rotate))
+(use-package ef-themes
+  :ensure t
+  ;;:defer 2 ;; Load 2 seconds after startup
   :config
-  ;; General Modus Themes settings.
-  (setq modus-themes-custom-auto-reload nil
-        modus-themes-to-toggle '(modus-operandi-deuteranopia modus-vivendi-tinted)
-        modus-themes-to-rotate modus-themes-items
-        modus-themes-mixed-fonts t
-        modus-themes-variable-pitch-ui t
-        modus-themes-italic-constructs t
-        modus-themes-bold-constructs nil
-        modus-themes-completions '((t . (extrabold)))
-        modus-themes-prompts '(extrabold)
-        modus-themes-headings
-        '((agenda-structure . (variable-pitch light 2.2))
-          (agenda-date . (variable-pitch regular 1.3))
-          (t . (regular 1.15)))))
-
-
-;; remove border
-(setq modus-themes-common-palette-overrides
-      '((border-mode-line-active bg-mode-line-active)
-        (border-mode-line-inactive bg-mode-line-inactive)))
-
-;; Load the default theme on startup.
-(load-theme my/modus-default-theme :no-confirm)
-
+  (load-theme 'ef-maris-light t))
 
 ;; Paid font
 (set-face-attribute 'default nil
@@ -99,40 +66,20 @@
                     :height 160
                     :weight 'normal)
 
-;; Define a list of commonly used paths to ensure they are included in `exec-path`.
-(defvar my/common-paths '("/opt/homebrew/bin" "/usr/local/bin" "/Users/paulcartier/go/bin")
-  "List of commonly used paths to ensure are in `exec-path`.")
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
 
-(defun my/configure-dired ()
-  "Configure `dired` to use `gls` on macOS if available."
-  (let ((gls-path (executable-find "gls")))
-    (when gls-path
-      (setq insert-directory-program gls-path
-            dired-use-ls-dired t
-            dired-listing-switches "-al --group-directories-first"))))
+;; If we need other paths us the setting below:
+;;(setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOPATH" "PYTHONPATH"))
+;;(exec-path-from-shell-initialize)
 
-(defun set-exec-path-from-shell-PATH ()
-  "Set up Emacs' `exec-path` and PATH environment variable to match the shell.
-This is particularly useful under macOS, where GUI apps do not inherit the shell environment."
-  (let* ((shell (or (getenv "SHELL") "/bin/bash"))
-         (path-from-shell (ignore-errors
-                            (string-trim
-                             (shell-command-to-string
-                              (format "%s --login -c 'echo $PATH'" shell))))))
-    (when (and path-from-shell (not (string-empty-p path-from-shell)))
-      (setenv "PATH" path-from-shell)
-      (setq exec-path (split-string path-from-shell path-separator)))
-
-    ;; Ensure commonly used paths are included if not already present.
-    (dolist (dir my/common-paths)
-      (unless (member dir exec-path)
-        (add-to-list 'exec-path dir)))
-
-    ;; Configure `dired` for macOS.
-    (my/configure-dired)))
-
-;; Apply the function immediately on startup.
-(set-exec-path-from-shell-PATH)
+(when (executable-find "gls")
+  (setq insert-directory-program (executable-find "gls")
+        dired-use-ls-dired t
+        dired-listing-switches "-al --group-directories-first"))
 
 (use-package orderless
   :demand t
@@ -279,29 +226,7 @@ This is particularly useful under macOS, where GUI apps do not inherit the shell
   ;; Tags.
   (setq org-tag-alist nil)
   (setq org-auto-align-tags nil)
-  (setq org-tags-column 0)
-
-  ;; Logging.
-  (setq org-log-done 'time)
-  (setq org-log-into-drawer t)
-  (setq org-log-note-clock-out nil)
-  (setq org-log-redeadline 'time)
-  (setq org-log-reschedule 'time)
-
-  ;; Links.
-  (setq org-link-context-for-files t)
-  (setq org-link-keep-stored-after-insertion nil)
-  (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
-
-  ;; Code blocks.
-  (setq org-confirm-babel-evaluate nil)
-  (setq org-src-window-setup 'current-window)
-  (setq org-edit-src-persistent-message nil)
-  (setq org-src-fontify-natively t)
-  (setq org-src-preserve-indentation t)
-  (setq org-src-tab-acts-natively t)
-  (setq org-edit-src-content-indentation 0))
-
+  (setq org-tags-column 0))
 
 (use-package org-capture
   :ensure nil
@@ -338,7 +263,7 @@ This is particularly useful under macOS, where GUI apps do not inherit the shell
   (add-hook 'dired-mode-hook 'denote-dired-mode)
 
   ;; Keybindings for Denote actions
-  (define-key global-map (kbd "C-c n n") 'denote)               ;; Create a new note
+  (define-key global-map (kbd "C-c n n") 'denote)                ;; Create a new note
   (define-key global-map (kbd "C-c n d") 'denote-sort-dired)     ;; Sort notes in Dired
   (define-key global-map (kbd "C-c n l") 'denote-link)           ;; Insert a link to a note
   (define-key global-map (kbd "C-c n L") 'denote-add-links)      ;; Add links to a note
@@ -408,6 +333,10 @@ This is particularly useful under macOS, where GUI apps do not inherit the shell
   )
 (provide 'emacs-ai)
 ;; Custom functions
+
+
+(global-set-key (kbd "s-q") 'save-buffers-kill-terminal) ;; Cmd+Q to quit
+
 
 (defun now ()
   "Insert string for the current time formatted like '2:34 PM'."
