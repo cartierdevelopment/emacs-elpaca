@@ -1,3 +1,5 @@
+
+;; -*- lexical-binding: t; -*-
 (defvar elpaca-installer-version 0.9)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
@@ -54,7 +56,7 @@
 ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 ;;(load-theme 'dracula t)
 
-(use-package ef-themes
+(elpaca ef-themes
   :ensure t
   ;;:defer 2 ;; Load 2 seconds after startup
   :config
@@ -66,7 +68,7 @@
                     :height 160
                     :weight 'normal)
 
-(use-package exec-path-from-shell
+(elpaca exec-path-from-shell
   :ensure t
   :config
   (when (memq window-system '(mac ns x))
@@ -81,35 +83,36 @@
         dired-use-ls-dired t
         dired-listing-switches "-al --group-directories-first"))
 
-(use-package orderless
+(elpaca orderless
   :demand t
   :init
   (setq completion-styles '(orderless)
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
 
-(use-package vertico
+(elpaca vertico
   :ensure t
   :config
   (setq vertico-cycle t)
   (setq vertico-resize nil)
   (vertico-mode 1))
 
-(use-package marginalia
+(elpaca marginalia
   :ensure t
   :config
   (marginalia-mode))
 
-(use-package consult
+(elpaca consult
   :ensure t
-  :bind
-  (("C-x b" . consult-buffer)       ;; Remap to consult-buffer
-   ("M-s r" . consult-ripgrep)      ;; Ripgrep search
-   ("M-s f" . consult-find)         ;; File search
-   ("M-s F" . consult-locate)       ;; Locate search
-   ("M-s l" . consult-line)         ;; Search for a line in the current buffer
-   ("M-s y" . consult-yank-pop))    ;; Yank-pop from kill-ring
   :config
+  (with-eval-after-load 'consult
+    (define-key consult-mode-map (kbd "C-x b") 'consult-buffer)  ;; Remap to consult-buffer
+    (define-key consult-mode-map (kbd "M-s r") 'consult-ripgrep)  ;; Ripgrep search
+    (define-key consult-mode-map (kbd "M-s f") 'consult-find)     ;; File search
+    (define-key consult-mode-map (kbd "M-s F") 'consult-locate)   ;; Locate search
+    (define-key consult-mode-map (kbd "M-s l") 'consult-line)     ;; Search for a line in the current buffer
+    (define-key consult-mode-map (kbd "M-s y") 'consult-yank-pop)) ;; Yank-pop from kill-ring
+
   (setq consult-project-root-function
         (lambda ()
           (when-let (project (project-current))
@@ -212,7 +215,7 @@
 
 ;; Org mode
 
-(use-package org
+(elpaca org
   :ensure nil  ; Built-in package
   :init
   (setq org-imenu-depth 7)
@@ -254,8 +257,9 @@
 
 (use-package markdown-mode
   :ensure t
-  :mode ("README\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "multimarkdown"))
+  :mode ("README\\.md\\'" . gfm-mode)  ;; Use `gfm-mode` for README.md files
+  :init
+  (setq markdown-command "multimarkdown"))
 
 (elpaca denote
   ;; Hooks for Denote functionality
@@ -316,27 +320,24 @@
     :custom
     (denote-search-format-heading-function #'denote-search-format-heading-with-keywords)))
 
-
-(use-package denote-menu
+(elpaca denote-menu
   :ensure t
-  :bind (("C-c z" . list-denotes)
-         :map denote-menu-mode-map
-         ("c" . denote-menu-clear-filters)
-         ("/ r" . denote-menu-filter)
-         ("/ k" . denote-menu-filter-by-keyword)
-         ("/ o" . denote-menu-filter-out-keyword)
-         ("e" . denote-menu-export-to-dired)))
+  :config
+  (with-eval-after-load 'denote-menu
+    (define-key denote-menu-mode-map (kbd "C-c z") 'list-denotes)
+    (define-key denote-menu-mode-map (kbd "c") 'denote-menu-clear-filters)
+    (define-key denote-menu-mode-map (kbd "/ r") 'denote-menu-filter)
+    (define-key denote-menu-mode-map (kbd "/ k") 'denote-menu-filter-by-keyword)
+    (define-key denote-menu-mode-map (kbd "/ o") 'denote-menu-filter-out-keyword)
+    (define-key denote-menu-mode-map (kbd "e") 'denote-menu-export-to-dired)))
 
-(use-package gptel
+(elpaca gptel
   :ensure t
   :defer t  ;; Load only when first used
   )
-(provide 'emacs-ai)
-;; Custom functions
 
-
+;; Custom functions and bindings
 (global-set-key (kbd "s-q") 'save-buffers-kill-terminal) ;; Cmd+Q to quit
-
 
 (defun now ()
   "Insert string for the current time formatted like '2:34 PM'."

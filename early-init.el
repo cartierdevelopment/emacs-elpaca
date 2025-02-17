@@ -1,4 +1,4 @@
-;; Early initialization settings for Emacs
+;; -*- lexical-binding: t; -*-
 
 ;; ===================
 ;; Measure and display startup time
