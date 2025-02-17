@@ -56,8 +56,6 @@
 ;;(load-theme 'dracula t)
 
 (elpaca ef-themes
-  :ensure t
-  ;;:defer 2 ;; Load 2 seconds after startup
   :config
   (load-theme 'ef-maris-light t))
 
@@ -68,7 +66,6 @@
                     :weight 'normal)
 
 (elpaca exec-path-from-shell
-  :ensure t
   :config
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
@@ -90,19 +87,16 @@
         completion-category-overrides '((file (styles partial-completion)))))
 
 (elpaca vertico
-  :ensure t
   :config
   (setq vertico-cycle t)
   (setq vertico-resize nil)
   (vertico-mode 1))
 
 (elpaca marginalia
-  :ensure t
   :config
-  (marginalia-mode))
+  (marginalia-mode 1))
 
 (elpaca consult
-  :ensure t
   :config
   (with-eval-after-load 'consult
     (define-key consult-mode-map (kbd "C-x b") 'consult-buffer)  ;; Remap to consult-buffer
@@ -314,7 +308,6 @@
     (denote-search-format-heading-function #'denote-search-format-heading-with-keywords)))
 
 (elpaca denote-menu
-  :ensure t
   :config
   (with-eval-after-load 'denote-menu
     (define-key denote-menu-mode-map (kbd "C-c z") 'list-denotes)
@@ -325,7 +318,6 @@
     (define-key denote-menu-mode-map (kbd "e") 'denote-menu-export-to-dired)))
 
 (elpaca gptel
-  :ensure t
   :defer t  ;; Load only when first used
   )
 
