@@ -44,6 +44,15 @@
 ;; Save the command history
 (savehist-mode 1)
 
+;; Main window hacks
+(set-fringe-mode 0)
+
+(setq frame-resize-pixelwise t)
+(add-to-list 'default-frame-alist '(undecorated-round . t))
+
+(add-hook 'window-configuration-change-hook
+          (lambda () (set-window-margins nil 2 2))) ;; Adjust values as needed
+
 ;; theme
 ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 ;;(load-theme 'dracula t)
