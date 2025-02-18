@@ -307,18 +307,18 @@
     :custom
     (denote-search-format-heading-function #'denote-search-format-heading-with-keywords)))
 
-(elpaca denote-menu
-  :config
-  (with-eval-after-load 'denote-menu
-    (define-key denote-menu-mode-map (kbd "C-c z") 'list-denotes)
-    (define-key denote-menu-mode-map (kbd "c") 'denote-menu-clear-filters)
-    (define-key denote-menu-mode-map (kbd "/ r") 'denote-menu-filter)
-    (define-key denote-menu-mode-map (kbd "/ k") 'denote-menu-filter-by-keyword)
-    (define-key denote-menu-mode-map (kbd "/ o") 'denote-menu-filter-out-keyword)
-    (define-key denote-menu-mode-map (kbd "e") 'denote-menu-export-to-dired)))
+(use-package denote-menu
+  :ensure t
+  :bind (("C-c z" . list-denotes)
+         :map denote-menu-mode-map
+         ("c" . denote-menu-clear-filters)
+         ("/ r" . denote-menu-filter)
+         ("/ k" . denote-menu-filter-by-keyword)
+         ("/ o" . denote-menu-filter-out-keyword)
+         ("e" . denote-menu-export-to-dired)))
 
 (elpaca gptel
-  )
+)
 
 ;; Custom functions and bindings
 (global-set-key (kbd "s-q") 'save-buffers-kill-terminal) ;; Cmd+Q to quit
