@@ -23,6 +23,10 @@
           (lambda ()
             (setq gc-cons-threshold (* 1000 1000 8))))  ;; Reset to 8 MB
 
+
+;; Prevent Emacs from automatically modifying your `.emacs` configuration file 
+(setq disabled-command-function nil)
+
 ;; ===================
 ;; Frame and window settings
 ;; ===================

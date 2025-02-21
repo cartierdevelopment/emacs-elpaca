@@ -45,19 +45,32 @@
 ;; Save the command history
 (savehist-mode 1)
 
-;; Main window hacks
-(set-fringe-mode 0)
+;; Remember where we were last editing a file.
 
-(add-hook 'window-configuration-change-hook
-          (lambda () (set-window-margins nil 2 2))) ;; Adjust values as needed
+(save-place-mode 1)  
+
+;; A cool mode to revert a window configuration
+(winner-mode 1)
 
 ;; custom theme
-;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-;;(load-theme 'dracula t)
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+;;(load-theme 'palenight-deeper-blue t)
 
 (elpaca ef-themes
   :config
-  (load-theme 'ef-maris-light t))
+  (load-theme 'ef-dream t))
+
+(elpaca spacious-padding
+  (setq spacious-padding-widths
+        '(:internal-border-width 5
+          :header-line-width 4
+          :mode-line-width 8
+          :tab-width 4
+          :right-divider-width 15
+          :scroll-bar-width 8
+          :left-fringe-width 20
+          :right-fringe-width 15))
+  (spacious-padding-mode 1))
 
 ;; Paid font
 (set-face-attribute 'default nil
@@ -110,6 +123,18 @@
         (lambda ()
           (when-let (project (project-current))
             (car (project-roots project))))))  ;; Use project.el to retrieve the project root
+
+(elpaca jinx)
+;; Enable jinx globally
+(add-hook 'emacs-startup-hook #'global-jinx-mode)
+
+;; Keybinding for quick corrections in jinx buffers
+(with-eval-after-load 'jinx
+  (define-key jinx-mode-map (kbd "M-$") #'jinx-correct))
+
+;; If using orderless for completion, integrate it with jinx
+(with-eval-after-load 'orderless
+  (add-to-list 'completion-category-overrides '(jinx (styles orderless))))
 
 ;; Languages
 
@@ -343,7 +368,7 @@ e.g. Sunday, September 17, 2000."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(denote-search))
+ '(package-selected-packages '(denote-search eglot))
  '(package-vc-selected-packages
    '((denote-search :url "https://github.com/lmq-10/denote-search"))))
 (custom-set-faces
