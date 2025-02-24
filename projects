@@ -1,3 +1,4 @@
 ;;; -*- lisp-data -*-
-(("/Users/paulcartier/Development/GO/transactions-cds/")
+(("/Users/paulcartier/gotest/")
+ ("/Users/paulcartier/Development/GO/transactions-cds/")
  ("/Users/paulcartier/.emacs.d/elpa/denote-search/"))

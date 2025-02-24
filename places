@@ -1,7 +1,50 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/Users/paulcartier/org/denote-markdown/20250210T104500--meetings-remote__meetings.md"
-  . 690)
- ("/Users/paulcartier/org/denote-markdown/20250219T173555--recaptcha__wordpress.md"
-  . 2305)
+(("/Users/paulcartier/gotest/calc.go" . 182)
+ ("/usr/local/go/src/runtime/proc.go" . 10009)
+ ("/Users/paulcartier/org/denote-markdown/20250210T104658--emacs-bindings__emacs.md"
+  . 3376)
+ ("/Users/paulcartier/gotest/"
+  (dired-filename . "/Users/paulcartier/gotest/calc.go"))
  ("/Users/paulcartier/Development/GO/transactions-cds/functions/main.go"
-  . 7224))
+  . 18952)
+ ("/Users/paulcartier/Development/GO/transactions-cds/functions/main_test.go"
+  . 1639)
+ ("/Users/paulcartier/Development/"
+  (dired-filename . "/Users/paulcartier/Development/AITest"))
+ ("/Users/paulcartier/Development/AITest/"
+  (dired-filename
+   . "/Users/paulcartier/Development/AITest/GuidepostsAI.js"))
+ ("/Users/paulcartier/Development/AITest/GuidepostsAI.js" . 963)
+ ("/Users/paulcartier/org/tasks.org" . 4120)
+ ("/Users/paulcartier/org/denote-markdown/20250210T093327--cds-api-versions__cds.md"
+  . 3524)
+ ("/Users/paulcartier/.emacs.d/bookmarks" . 251)
+ ("/Users/paulcartier/codebase/cds/packages/"
+  (dired-filename
+   . "/Users/paulcartier/codebase/cds/packages/cds-global"))
+ ("/Users/paulcartier/codebase/cds/packages/cds-global/"
+  (dired-filename
+   . "/Users/paulcartier/codebase/cds/packages/cds-global/cds-global.go"))
+ ("/Users/paulcartier/codebase/cds/packages/cds-global/cds-global.go"
+  . 3002)
+ ("/Users/paulcartier/.emacs.d/init.el" . 14064)
+ ("/Users/paulcartier/Development/AI/AIGuideposts/server.js" . 16754)
+ ("/Users/paulcartier/org/denote-markdown/20250224T151804--gp-chat-ai__ai.md"
+  . 259)
+ ("/Users/paulcartier/org/denote-markdown/20250213T151651--guideposts-ai__ai.md"
+  . 3763)
+ ("/Users/paulcartier/org/tasks.org_archive" . 17817)
+ ("/Users/paulcartier/org/denote-markdown/20250210T104500--meetings-remote__meetings.md"
+  . 859)
+ ("/Users/paulcartier/org/denote-markdown/20250210T104202--meetings-development__meetings.md"
+  . 1170)
+ ("/Users/paulcartier/org/denote-markdown/20250210T104353--meetings-guideposts__meetings.md"
+  . 227)
+ ("/Users/paulcartier/Development/GO/transactions-cds/functions/packages/cds-global/cds-global.go"
+  . 2774)
+ ("/Users/paulcartier/Development/GO/transactions-cds/functions/packages/orders/orders.go"
+  . 763)
+ ("/Users/paulcartier/org/denote-markdown/20250219T173054--updating-guideposts-ai__ai.md"
+  . 424)
+ ("/Users/paulcartier/org/denote-markdown/20250219T173555--recaptcha__wordpress.md"
+  . 2305))

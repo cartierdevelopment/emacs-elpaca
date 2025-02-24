@@ -162,36 +162,62 @@
 (elpaca flycheck
   (add-hook 'go-mode-hook #'flycheck-mode))
 
-(elpaca dape
-  (setq dape-buffer-window-arrangement 'right
-        dape-inhibit-idle-timer t
-        dape-debug-log-level 'info)
+(use-package dape
+  :defer t
+  :ensure t
+  :after go-mode
+  :custom
+  ;; Arrange debug windows on the right.
+  (dape-buffer-window-arrangement 'right)
+  ;; Improve performance during debugging.
+  (dape-inhibit-idle-timer t)  ;; Disable idle timers during debugging
+  (dape-debug-log-level 'info)  ;; Set log level to avoid excessive logging
+  :config
+  ;; Add a Dape debugging configuration for Go using Delve (dlv).
+  (add-to-list 'dape-configs
+               `(go-debug-main
+                 modes (go-mode go-ts-mode)
+                 command ,(or (executable-find "dlv") "dlv")  ;; Use `dlv` from PATH
+                 command-args ("dap" "--listen" "127.0.0.1::autoport")
+                 command-cwd dape-command-cwd
+                 port :autoport
+                 :type "debug"
+                 :request "launch"
+                 :name "Debug Go Program"
+                 :cwd "."
+                 :program "."
+                 :args [])))
 
-  (with-eval-after-load 'dape
-    ;; Ensure dape-configs is available before modifying it
-    (add-to-list 'dape-configs
-                 `(go-debug-main
-                   modes (go-mode go-ts-mode)
-                   command ,(or (executable-find "dlv") "dlv")  ;; Use `dlv` from PATH
-                   command-args ("dap" "--listen" "127.0.0.1::autoport")
-                   command-cwd dape-command-cwd
-                   port :autoport
-                   :type "debug"
-                   :request "launch"
-                   :name "Debug Go Program"
-                   :cwd "."
-                   :program "."
-                   :args []))
+;; Define `C-c d` as a prefix key.
+(defvar dape-prefix-map (make-sparse-keymap)
+  "Keymap for Dape prefix commands.")
+(define-key global-map (kbd "C-c d") dape-prefix-map)
 
-    ;; Define keybindings for common debugging actions.
-    (let ((map dape-mode-map))
-      (define-key map (kbd "C-c d b") 'dape-breakpoint-toggle)
-      (define-key map (kbd "C-c d c") 'dape-continue)
-      (define-key map (kbd "C-c d n") 'dape-next)
-      (define-key map (kbd "C-c d s") 'dape-step-in)
-      (define-key map (kbd "C-c d o") 'dape-step-out)
-      (define-key map (kbd "C-c d r") 'dape-restart)
-      (define-key map (kbd "C-c d q") 'dape-quit))))
+;; Additional Functions
+
+;; Start debugging the current Go program.
+(defun my/start-go-debug ()
+  "Start debugging the current Go program."
+  (interactive)
+  (dape 'go-debug-main))
+(define-key dape-prefix-map (kbd "d") #'my/start-go-debug)
+
+;; Toggle Dape debug mode.
+(defun my/toggle-debug-mode ()
+  "Toggle Dape debug mode."
+  (interactive)
+  (if (bound-and-true-p dape-mode)
+      (dape-mode -1)
+    (dape-mode 1)))
+(define-key dape-prefix-map (kbd "t") #'my/toggle-debug-mode)
+
+;; Set a breakpoint at the current line.
+(defun my/set-breakpoint ()
+  "Set a breakpoint at the current line."
+  (interactive)
+  (dape-breakpoint-toggle))
+(define-key dape-prefix-map (kbd "b") #'my/set-breakpoint)
+
 
 
 (elpaca (transient :upgrade t))  ;; Ensure transient is up-to-date
@@ -362,6 +388,8 @@ e.g. Sunday, September 17, 2000."
 
 ;; Bindings
 (global-set-key [f1] 'markdown-toggle-markup-hiding)
+(global-set-key [f7] 'org-tags-view)
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
