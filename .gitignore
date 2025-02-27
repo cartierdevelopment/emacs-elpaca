@@ -52,6 +52,8 @@ flycheck_*.el
 # other files to ignore
 .DS_Store
 history
+/history 
+logs/history
 projectile-bookmarks.eld
 bookmarks
 .lsp-session-v1
