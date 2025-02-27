@@ -525,7 +525,7 @@ returns the key.
 REQUEST-PARAMS (optional) is a plist of additional HTTP request
 parameters.
 
-(fn NAME &key CURL-ARGS STREAM KEY (HEADER (lambda nil (when-let* ((key (gptel--get-api-key))) \\=`((\"Authorization\" \\=\\, (concat \"Bearer \" key)))))) (HOST \"api.perplexity.ai\") (PROTOCOL \"https\") (MODELS \\='(sonar sonar-pro)) (ENDPOINT \"/chat/completions\") REQUEST-PARAMS)")
+(fn NAME &key CURL-ARGS STREAM KEY (HEADER (lambda nil (when-let* ((key (gptel--get-api-key))) \\=`((\"Authorization\" \\=\\, (concat \"Bearer \" key)))))) (HOST \"api.perplexity.ai\") (PROTOCOL \"https\") (MODELS \\='(sonar sonar-pro sonar-reasoning sonar-reasoning-pro sonar-deep-research)) (ENDPOINT \"/chat/completions\") REQUEST-PARAMS)")
 (function-put 'gptel-make-perplexity 'lisp-indent-function 1)
 (register-definition-prefixes "gptel-openai-extras" '("gptel--p"))
 

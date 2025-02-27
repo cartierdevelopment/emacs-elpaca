@@ -50,20 +50,20 @@ the current Emacs session.
 
 If the value is nil, no bindings are added.
 
-If `default', maybe add:
+If \\+`default', maybe add:
 
-    C-x g     `magit-status'
-    C-x M-g   `magit-dispatch'
-    C-c M-g   `magit-file-dispatch'
+    \\`C-x' \\`g'     `magit-status'
+    \\`C-x' \\`M-g'   `magit-dispatch'
+    \\`C-c' \\`M-g'   `magit-file-dispatch'
 
 If `recommended', maybe add:
 
-    C-x g     `magit-status'
-    C-c g     `magit-dispatch'
-    C-c f     `magit-file-dispatch'
+    \\`C-x' \\`g'     `magit-status'
+    \\`C-c' \\`g'     `magit-dispatch'
+    \\`C-c' \\`f'     `magit-file-dispatch'
 
     These bindings are strongly recommended, but we cannot use
-    them by default, because the \"C-c <LETTER>\" namespace is
+    them by default, because the \\`C-c <LETTER>' namespace is
     strictly reserved for bindings added by the user.
 
 The bindings in the chosen set may be added when
@@ -97,7 +97,7 @@ See variable `magit-define-global-key-bindings'." (when magit-define-global-key-
 (autoload 'magit-git-command "magit" "\
 Execute COMMAND asynchronously; display output.
 
-Interactively, prompt for COMMAND in the minibuffer. \"git \" is
+Interactively, prompt for COMMAND in the minibuffer.  \"git \" is
 used as initial input, but can be deleted to run another command.
 
 With a prefix argument COMMAND is run in the top-level directory
@@ -107,7 +107,7 @@ of the current working tree, otherwise in `default-directory'.
 (autoload 'magit-git-command-topdir "magit" "\
 Execute COMMAND asynchronously; display output.
 
-Interactively, prompt for COMMAND in the minibuffer. \"git \" is
+Interactively, prompt for COMMAND in the minibuffer.  \"git \" is
 used as initial input, but can be deleted to run another command.
 
 COMMAND is run in the top-level directory of the current
@@ -433,7 +433,7 @@ and also rename the respective reflog file.
 
 (fn BRANCH)" t)
 (autoload 'magit-branch-unshelve "magit-branch" "\
-Unshelve a BRANCH
+Unshelve a BRANCH.
 Rename \"refs/shelved/BRANCH\" to \"refs/heads/BRANCH\",
 and also rename the respective reflog file.
 
@@ -522,7 +522,7 @@ Create a new commit.
 Amend staged changes to the last commit, without editing its message.
 
 With a prefix argument do not update the committer date; without an
-argument update it. The option `magit-commit-extend-override-date'
+argument update it.  The option `magit-commit-extend-override-date'
 can be used to inverse the meaning of the prefix argument.  Called
 non-interactively, the optional OVERRIDE-DATE argument controls this
 behavior, and the option is of no relevance.
@@ -536,7 +536,7 @@ Amend staged changes (if any) to the last commit, and edit its message.
 Reword the message of the last commit, without amending its tree.
 
 With a prefix argument do not update the committer date; without an
-argument update it. The option `magit-commit-reword-override-date'
+argument update it.  The option `magit-commit-reword-override-date'
 can be used to inverse the meaning of the prefix argument.  Called
 non-interactively, the optional OVERRIDE-DATE argument controls this
 behavior, and the option is of no relevance.
@@ -1928,7 +1928,7 @@ Then apply STASH, dropping it if it applies cleanly.
 
 (fn STASH BRANCH)" t)
 (autoload 'magit-stash-format-patch "magit-stash" "\
-Create a patch from STASH
+Create a patch from STASH.
 
 (fn STASH)" t)
 (autoload 'magit-stash-list "magit-stash" "\

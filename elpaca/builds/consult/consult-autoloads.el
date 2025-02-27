@@ -12,12 +12,11 @@
 (autoload 'consult-completion-in-region "consult" "\
 Use minibuffer completion as the UI for `completion-at-point'.
 
-The function is called with 4 arguments: START END COLLECTION
-PREDICATE.  The arguments and expected return value are as
-specified for `completion-in-region'.  Use this function as a
-value for `completion-in-region-function'.
+The arguments START, END, COLLECTION and PREDICATE and expected return
+value are as specified for `completion-in-region'.  Use this function as
+a value for `completion-in-region-function'.
 
-(fn START END COLLECTION &optional PREDICATE)")
+(fn START END COLLECTION PREDICATE)")
 (autoload 'consult-outline "consult" "\
 Jump to an outline heading, obtained by matching against `outline-regexp'.
 
