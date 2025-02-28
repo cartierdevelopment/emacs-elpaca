@@ -326,8 +326,8 @@
     (define-key dired-mode-map (kbd "C-c C-d C-R") 'denote-dired-rename-marked-files-using-front-matter)) ;; Rename using front matter
 
   ;; Configuration settings for Denote
-  (setq denote-directory (expand-file-name "~/org/denote-markdown/"))
-  (setq denote-file-type 'markdown-toml)
+  (setq denote-directory (expand-file-name "~/org/notes/"))
+  ;;(setq denote-file-type 'markdown-toml)
 
   ;; Ensure Denote directory exists
   (unless (file-directory-p denote-directory)

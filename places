@@ -1,5 +1,8 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/Users/paulcartier/org/tasks.org" . 8996)
+(("/Users/paulcartier/org/tasks.org" . 3115)
+ ("/Users/paulcartier/org/denote-markdown/20250226T153204--project-cds-tax__project.org"
+  . 1286)
+ ("/Users/paulcartier/.emacs.d/bookmarks" . 251)
  ("/Users/paulcartier/Development/GO/transactions-cds/functions/main.go"
   . 1557)
  ("/Users/paulcartier/Development/GO/transactions-cds/functions/packages/cds-global/cds-global.go"
@@ -9,8 +12,6 @@
   . 871)
  ("/Users/paulcartier/org/denote-markdown/20250210T104202--meetings-development__meetings.md"
   . 1377)
- ("/Users/paulcartier/org/denote-markdown/20250226T153204--project-cds-tax__project.org"
-  . 161)
  ("/Users/paulcartier/org/denote-markdown/20250210T104500--meetings-remote__meetings.md"
   . 137)
  ("/Users/paulcartier/.emacs.d/init.el" . 13866)
@@ -23,7 +24,6 @@
   . 146)
  ("/Users/paulcartier/org/denote-markdown/20250224T151804--gp-chat-ai__ai.md"
   . 737)
- ("/Users/paulcartier/.emacs.d/bookmarks" . 251)
  ("/Users/paulcartier/org/denote-markdown/20250210T104749--queries-on-pagley-db__pagley.md"
   . 155)
  ("/Users/paulcartier/org/denote-markdown/20250210T104658--emacs-bindings__emacs.md"
