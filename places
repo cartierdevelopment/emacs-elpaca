@@ -1,61 +1,99 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/Users/paulcartier/org/tasks.org" . 3115)
- ("/Users/paulcartier/org/denote-markdown/20250226T153204--project-cds-tax__project.org"
-  . 1286)
+(("/Users/paulcartier/Development/GO/cds-taxcalculations/cds-taxcalculations/main.go" . 720)
+ ("/Users/paulcartier/org/tasks.org" . 4439)
+ ("/Users/paulcartier/org/notes/20250228T112259--project-cds-tax-calculations__project.org" . 812)
+ ("/Users/paulcartier/.emacs.d/init.el" . 2771)
+ ("/Users/paulcartier/Development/GO/cds-taxcalculations/"
+  (dired-filename . "/Users/paulcartier/Development/GO/cds-taxcalculations/template.yaml"))
+ ("/Users/paulcartier/Development/GO/cds-taxcalculations/template.yaml" . 874)
+ ("/Users/paulcartier/org/notes/20250228T085720--cds-api-version-tracker__cds.org" . 3046)
+ ("/Users/paulcartier/org/notes/20250228T102431--development-team-meeting-notes__meetings.org" . 566)
+ ("/Users/paulcartier/Development/AI/AIGuideposts/queryChatGTPOnly.js" . 810)
+ ("/Users/paulcartier/org/notes/20250228T111730--guideposts-ai-application-paths__ai.org" . 282)
+ ("/Users/paulcartier/.authinfo" . 210) ("/Users/paulcartier/Development/AI/AIGuideposts/package.json" . 3)
+ ("/Users/paulcartier/Development/AI/AIGuideposts/server.js" . 9372)
+ ("/Users/paulcartier/Development/AI/tools/server.js" . 769)
+ ("/Users/paulcartier/org/notes/20250304T132123--managing-openai-keys__ai.org" . 92)
+ ("/Users/paulcartier/Development/AI/AIGuideposts/.env" . 154)
+ ("/Users/paulcartier/.config/enchant/en_US.dic" . 134)
+ ("/Users/paulcartier/org/notes/20250228T102754--remote-team-notes__meetings.org" . 334)
+ ("/Users/paulcartier/org/notes/20250303T093043--how-to-add-or-remove-password-protection__pagley.org" . 421)
  ("/Users/paulcartier/.emacs.d/bookmarks" . 251)
- ("/Users/paulcartier/Development/GO/transactions-cds/functions/main.go"
-  . 1557)
- ("/Users/paulcartier/Development/GO/transactions-cds/functions/packages/cds-global/cds-global.go"
-  . 4125)
+ ("/Users/paulcartier/org/notes/20250228T103301--emacs-keybindings-to-remember__emacs.org" . 1447)
+ ("/Users/paulcartier/org/notes/20250228T102539--guideposts-general-meeting-notes__meetings.org" . 723)
+ ("/Users/paulcartier/org/notes/20250228T092604--pagely-hosting-resources__pagley.org" . 452)
+ ("/Users/paulcartier/org/notes/20250228T103429--executing-database-queries-on-pagley__pagley.org" . 127)
+ ("/Users/paulcartier/org/notes/20250228T144657--discourage-search-engines-from-indexing-site__wordpress.org"
+  . 283)
+ ("/Users/paulcartier/org/notes/20250228T112401--how-to-use-pandoc-for-different-file-formats__emacs.org"
+  . 241)
+ ("/Users/paulcartier/org/notes/20250228T111848--project-zeta-global-and-klaviyo-merge__project.org" . 859)
+ ("/Users/paulcartier/org/notes/20250228T111221--chatgtp-notes__chatgtp.org" . 297)
+ ("/Users/paulcartier/org/notes/20250228T111616--recaptcha-v3-instructions__recaptcha.org" . 135)
+ ("/Users/paulcartier/org/notes/20250228T111412--steps-to-deploy-guideposts-ai-application__ai.org" . 410)
+ ("/Users/paulcartier/org/notes/20250228T111123--local-apache-starting-and-stopping__apache.org" . 354)
+ ("/Users/paulcartier/org/notes/20250228T110736--pagley-deployment-using-clone-scripts__pagley.org" . 224)
+ ("/Users/paulcartier/org/notes/20250228T110650--how-to-setup-tmux-window-manager__cli.org" . 136)
+ ("/Users/paulcartier/org/notes/20250228T110445--usefull-unix-cli-commands__cli.org" . 129)
+ ("/Users/paulcartier/org/notes/20250228T110337--react-dnl-newsletter-access__react.org" . 474)
+ ("/Users/paulcartier/org/notes/20250228T110220--how-to-use-the-aws-secrets-manager__aws.org" . 138)
+ ("/Users/paulcartier/org/notes/20250228T110126--using-git-stash__git.org" . 1163)
+ ("/Users/paulcartier/org/notes/20250228T110012--how-to-clear-the-pagley-cache-wp-rocket__pagley.org" . 231)
+ ("/Users/paulcartier/org/notes/20250228T105808--creating-an-ec2-instance-on-aws__aws.org" . 2583)
+ ("/Users/paulcartier/org/notes/20250228T105905--how-to-password-protect-pagley-apps__pagley.org" . 141)
+ ("/Users/paulcartier/org/notes/20250228T105635--add-collaborators-to-pagley__pagley.org" . 351)
+ ("/Users/paulcartier/org/notes/20250228T104802--using-mbsync-for-gmail-configuration__emacs.org" . 176)
+ ("/Users/paulcartier/org/notes/20250228T105527--guideposts-ai-application-notes__ai.org" . 3981)
+ ("/Users/paulcartier/org/notes/20250228T104404--understanding-cloudwatch-timestamp-formats__aws.org" . 3)
+ ("/Users/paulcartier/org/notes/20250228T104225--guideposts-wordpress-plugin-licenses__wordpress.org" . 973)
+ ("/Users/paulcartier/org/notes/20250228T103607--home-oil-delivery-schedule__personal.org" . 151)
+ ("/Users/paulcartier/org/notes/20250228T102937--eglot-code-navigation__emacs.org" . 208)
+ ("/Users/paulcartier/org/notes/20250228T102230--emacs-magit-key-bindings__emacs.org" . 2955)
+ ("/Users/paulcartier/org/notes/20250228T102110--location-of-wordpress-gateway-plugin__wordpress.org" . 453)
+ ("/Users/paulcartier/org/notes/20250228T102005--using-json-cloudwatch-logs__aws.org" . 445)
+ ("/Users/paulcartier/org/notes/20250228T101606--troubleshooting-module-imports__aws.org" . 390)
+ ("/Users/paulcartier/org/notes/20250228T101506--aws-stack-management-and-troubleshooting__aws.org" . 188)
+ ("/Users/paulcartier/org/notes/20250228T101118--notes-from-medium-reading-with-paul__personal.org" . 2641)
+ ("/Users/paulcartier/org/notes/20250228T101028--exporting-and-transferring-mysql-data__databases.org" . 279)
+ ("/Users/paulcartier/org/notes/20250228T100845--docker-environment-for-web-applications__docker.org" . 1084)
+ ("/Users/paulcartier/org/notes/20250228T100636--debugging-apis-using-eventjson__go.org" . 623)
+ ("/Users/paulcartier/org/notes/20250228T100502--using-ngrok-on-your-local-computer__cli.org" . 612)
+ ("/Users/paulcartier/org/notes/20250228T095902--using-rsync__cli.org" . 409)
+ ("/Users/paulcartier/org/notes/20250228T095637--how-to-updated-guideposts-newsletter__wordpress.org" . 416)
+ ("/Users/paulcartier/org/notes/20250228T095525--creating-a-docker-container__docker.org" . 853)
+ ("/Users/paulcartier/org/notes/20250228T095200--pagley-cache-location__pagley.org" . 298)
+ ("/Users/paulcartier/org/notes/20250228T094958--gcp-building-and-running-a-application__gcp.org" . 498)
+ ("/Users/paulcartier/org/notes/20250228T094824--gcp-main-go-function-example__gcp.org" . 318)
+ ("/Users/paulcartier/org/notes/20250228T094710--gcp-cloud-functions-url__gcp.org" . 281)
+ ("/Users/paulcartier/org/notes/20250228T094512--gcp-settings-and-commands__gcp.org" . 697)
+ ("/Users/paulcartier/org/notes/20250228T094318--gcp-function-deployment-command__gcp.org" . 205)
+ ("/Users/paulcartier/org/notes/20250228T094206--aws-aurora-database-access-information__databases.org" . 22)
+ ("/Users/paulcartier/org/notes/20250228T094026--using-go-routines-for-delays-in-external-api-calls__go.org"
+  . 379)
+ ("/Users/paulcartier/org/notes/20250228T093903--pagely-and-cloudflare-settings__pagley.org" . 1302)
+ ("/Users/paulcartier/org/notes/20250228T093733--search-a-map-in-go-language__go.org" . 431)
+ ("/Users/paulcartier/org/notes/20250228T093626--handling-different-path-handlers-in-aws-lambda__go.org" . 3)
+ ("/Users/paulcartier/org/notes/20250228T093424--aws-iam-policy-example__aws.org" . 744)
+ ("/Users/paulcartier/org/notes/20250228T093157--aws-certificate-manager-acm__aws.org" . 1205)
+ ("/Users/paulcartier/org/notes/20250228T092950--aws-whitelisting-policies__aws.org" . 1279)
+ ("/Users/paulcartier/org/notes/20250228T092347--allow-corrs-in-api__corrs.org" . 1023)
+ ("/Users/paulcartier/org/notes/20250228T092155--disable-corrs-on-safari__corrs.org" . 6)
+ ("/Users/paulcartier/org/notes/20250228T090034--go-debuggin__go.org" . 141)
+ ("/Users/paulcartier/org/notes/20250228T085502--denote-key-bindings__denote.org" . 928)
+ ("/Users/paulcartier/Development/GO/transactions-cds/functions/main.go" . 1557)
+ ("/Users/paulcartier/Development/GO/transactions-cds/functions/packages/cds-global/cds-global.go" . 4125)
  ("/Users/paulcartier/gotest/calc.go" . 1577)
- ("/Users/paulcartier/org/denote-markdown/20250226T115525--project-klaviyo__project.md"
-  . 871)
- ("/Users/paulcartier/org/denote-markdown/20250210T104202--meetings-development__meetings.md"
-  . 1377)
- ("/Users/paulcartier/org/denote-markdown/20250210T104500--meetings-remote__meetings.md"
-  . 137)
- ("/Users/paulcartier/.emacs.d/init.el" . 13866)
- ("/Users/paulcartier/org/denote-markdown/20250210T103619--aws-errors__aws.md"
-  . 127)
- ("/Users/paulcartier/Development/GO/transactions-cds/functions/main_test.go"
-  . 1708)
- ("/Users/paulcartier/.config/enchant/en_US.dic" . 16)
- ("/Users/paulcartier/org/denote-markdown/20250210T103907--wordpress-gateway-plugin__wordpress.md"
-  . 146)
- ("/Users/paulcartier/org/denote-markdown/20250224T151804--gp-chat-ai__ai.md"
-  . 737)
- ("/Users/paulcartier/org/denote-markdown/20250210T104749--queries-on-pagley-db__pagley.md"
-  . 155)
- ("/Users/paulcartier/org/denote-markdown/20250210T104658--emacs-bindings__emacs.md"
-  . 3868)
- ("/Users/paulcartier/Development/AI/AIGuideposts/server.js" . 4126)
+ ("/Users/paulcartier/Development/GO/transactions-cds/functions/main_test.go" . 1708)
  ("/usr/local/go/src/runtime/proc.go" . 10009)
- ("/Users/paulcartier/gotest/"
-  (dired-filename . "/Users/paulcartier/gotest/calc.go"))
- ("/Users/paulcartier/Development/"
-  (dired-filename . "/Users/paulcartier/Development/AITest"))
+ ("/Users/paulcartier/gotest/" (dired-filename . "/Users/paulcartier/gotest/calc.go"))
+ ("/Users/paulcartier/Development/" (dired-filename . "/Users/paulcartier/Development/AITest"))
  ("/Users/paulcartier/Development/AITest/"
-  (dired-filename
-   . "/Users/paulcartier/Development/AITest/GuidepostsAI.js"))
+  (dired-filename . "/Users/paulcartier/Development/AITest/GuidepostsAI.js"))
  ("/Users/paulcartier/Development/AITest/GuidepostsAI.js" . 963)
- ("/Users/paulcartier/org/denote-markdown/20250210T093327--cds-api-versions__cds.md"
-  . 3524)
  ("/Users/paulcartier/codebase/cds/packages/"
-  (dired-filename
-   . "/Users/paulcartier/codebase/cds/packages/cds-global"))
+  (dired-filename . "/Users/paulcartier/codebase/cds/packages/cds-global"))
  ("/Users/paulcartier/codebase/cds/packages/cds-global/"
-  (dired-filename
-   . "/Users/paulcartier/codebase/cds/packages/cds-global/cds-global.go"))
- ("/Users/paulcartier/codebase/cds/packages/cds-global/cds-global.go"
-  . 3002)
- ("/Users/paulcartier/org/denote-markdown/20250213T151651--guideposts-ai__ai.md"
-  . 3763)
+  (dired-filename . "/Users/paulcartier/codebase/cds/packages/cds-global/cds-global.go"))
+ ("/Users/paulcartier/codebase/cds/packages/cds-global/cds-global.go" . 3002)
  ("/Users/paulcartier/org/tasks.org_archive" . 17817)
- ("/Users/paulcartier/org/denote-markdown/20250210T104353--meetings-guideposts__meetings.md"
-  . 227)
- ("/Users/paulcartier/Development/GO/transactions-cds/functions/packages/orders/orders.go"
-  . 763)
- ("/Users/paulcartier/org/denote-markdown/20250219T173054--updating-guideposts-ai__ai.md"
-  . 424)
- ("/Users/paulcartier/org/denote-markdown/20250219T173555--recaptcha__wordpress.md"
-  . 2305))
+ ("/Users/paulcartier/Development/GO/transactions-cds/functions/packages/orders/orders.go" . 763))

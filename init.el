@@ -55,7 +55,14 @@
 (winner-mode 1)
 
 ;; Set tab width to 8 spaces
-(setq tab-width 8) 
+(setq tab-width 8)
+
+(setq org-hide-emphasis-markers t)
+
+;; Set the wrap width (default is 70)
+
+(setq-default fill-column 110)
+(setq-default auto-fill-function 'do-auto-fill)
 
 ;; custom theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
@@ -66,15 +73,6 @@
   (load-theme 'ef-maris-light t))
 
 (elpaca spacious-padding
-  (setq spacious-padding-widths
-        '(:internal-border-width 5
-          :header-line-width 4
-          :mode-line-width 8
-          :tab-width 4
-          :right-divider-width 15
-          :scroll-bar-width 8
-          :left-fringe-width 20
-          :right-fringe-width 15))
   (spacious-padding-mode 1))
 
 ;; Paid font
@@ -96,6 +94,9 @@
   (setq insert-directory-program (executable-find "gls")
         dired-use-ls-dired t
         dired-listing-switches "-al --group-directories-first"))
+
+;;(elpaca org-superstar
+;;(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
 
 (elpaca orderless
   :demand t
@@ -271,7 +272,7 @@
   :config
   ;; General Org settings.
   (setq org-agenda-files '("~/org/tasks.org"))  ; Set specific agenda file
-  (setq org-todo-keywords '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCEL(c!)" "DONE(d!)"))))
+  (setq org-todo-keywords '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCEL(c!)" "DONE(d!)" "BACKLOG(b!)"))))
 
 (use-package org-capture
   :ensure nil
