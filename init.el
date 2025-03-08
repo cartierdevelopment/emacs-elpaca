@@ -66,14 +66,14 @@
 
 ;; custom theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-;;(load-theme 'palenight-deeper-blue t)
+;;(load-theme 'dracula t)
 
 (elpaca ef-themes
   :config
-  (load-theme 'ef-maris-light t))
+  (load-theme 'ef-maris-dark t))
 
-(elpaca spacious-padding
-  (spacious-padding-mode 1))
+;;(elpaca spacious-padding
+;;  (spacious-padding-mode 1))
 
 ;; Paid font
 (set-face-attribute 'default nil
@@ -304,6 +304,27 @@
   :mode ("README\\.md\\'" . gfm-mode)  ;; Use `gfm-mode` for README.md files
   :init
   (setq markdown-command "multimarkdown"))
+
+
+(use-package howm
+  :ensure t
+  :init
+  (setq howm-directory "~/org/howm")
+  ;; What format to use for the files?
+  (setq howm-file-name-format "%Y-%m-%d-%H%M%S.md")
+  (setq howm-view-title-header "*")
+  (setq howm-dtime-format "<%Y-%m-%d %a %H:%M>")
+  ;; Avoid conflicts with Org-mode by changing Howm's prefix from "C-c ,".
+  (setq howm-prefix (kbd "C-c ;")))
+
+;; Use ripgrep as grep
+  (setq howm-view-use-grep t)
+  (setq howm-view-grep-command "rg")
+  (setq howm-view-grep-option "-nH --no-heading --color never")
+  (setq howm-view-grep-extended-option nil)
+  (setq howm-view-grep-fixed-option "-F")
+  (setq howm-view-grep-expr-option nil)
+  (setq howm-view-grep-file-stdin-option nil)
 
 (elpaca denote
   ;; Hooks for Denote functionality
