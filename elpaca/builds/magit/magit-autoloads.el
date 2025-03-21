@@ -15,6 +15,7 @@
                   markdown-mode
                   org-mode
                   fundamental-mode
+                  log-edit-mode
                   git-commit-elisp-text-mode))))
 (register-definition-prefixes "git-commit" '("git-commit-" "global-git-commit-mode"))
 

@@ -1,6 +1,5 @@
 ;;; -*- lisp-data -*-
-(("/Users/paulcartier/Development/GO/function_tests/")
+(("/Users/paulcartier/Development/GO/transactions-cds/") ("/Users/paulcartier/Development/GO/function_tests/")
  ("/Users/paulcartier/Development/GO/guideposts-newsletters/")
- ("/Users/paulcartier/Development/GO/cds-taxcalculations/")
- ("/Users/paulcartier/Development/GO/transactions-cds/") ("/Users/paulcartier/gotest/")
+ ("/Users/paulcartier/Development/GO/cds-taxcalculations/") ("/Users/paulcartier/gotest/")
  ("/Users/paulcartier/.emacs.d/elpa/denote-search/"))

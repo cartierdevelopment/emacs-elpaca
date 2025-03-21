@@ -70,7 +70,7 @@
 
 (elpaca ef-themes
   :config
-  (load-theme 'ef-maris-dark t))
+  (load-theme 'ef-maris-light t))
 
 ;;(elpaca spacious-padding
 ;;  (spacious-padding-mode 1))
@@ -317,6 +317,9 @@
   ;; Avoid conflicts with Org-mode by changing Howm's prefix from "C-c ,".
   (setq howm-prefix (kbd "C-c ;")))
 
+;; Keep one window after "1" key in the summary buffer.
+(setq howm-view-keep-one-window t)
+
 ;; Use ripgrep as grep
   (setq howm-view-use-grep t)
   (setq howm-view-grep-command "rg")
@@ -417,6 +420,7 @@ e.g. Sunday, September 17, 2000."
 (global-set-key [f1] 'markdown-toggle-markup-hiding)
 (global-set-key [f7] 'org-tags-view)
 
+(global-set-key (kbd "C-c a") 'org-agenda)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

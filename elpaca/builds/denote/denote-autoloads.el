@@ -12,6 +12,50 @@
  (put 'denote-directory 'safe-local-variable (lambda (val) (or (stringp val) (eq val 'local) (eq val 'default-directory))))
  (put 'denote-known-keywords 'safe-local-variable #'listp)
  (put 'denote-infer-keywords 'safe-local-variable (lambda (val) (or val (null val))))
+(autoload 'denote-sort-files "denote" "\
+Returned sorted list of Denote FILES.
+
+With COMPONENT as a symbol among `denote-sort-components',
+sort files based on the corresponding file name component.
+
+With COMPONENT as the symbol of a function, use it to perform the
+sorting.  In this case, the function is called with two arguments, as
+described by `sort'.
+
+With COMPONENT as a nil value keep the original date-based
+sorting which relies on the identifier of each file name.
+
+With optional REVERSE as a non-nil value, reverse the sort order.
+
+(fn FILES COMPONENT &optional REVERSE)")
+(autoload 'denote-sort-dired "denote" "\
+Produce Dired buffer with sorted files from variable `denote-directory'.
+When called interactively, prompt for FILES-MATCHING-REGEXP and,
+depending on the value of the user option `denote-sort-dired-extra-prompts',
+also prompt for SORT-BY-COMPONENT, REVERSE, and EXCLUDE-REGEXP.
+
+1. FILES-MATCHING-REGEXP limits the list of Denote files to
+   those matching the provided regular expression.
+
+2. SORT-BY-COMPONENT sorts the files by their file name component (one
+   among `denote-sort-components').  If it is nil, sorting is performed
+   according to the user option `denote-sort-dired-default-sort-component',
+   falling back to the identifier.
+
+3. REVERSE is a boolean to reverse the order when it is a non-nil value.
+   If `denote-sort-dired-extra-prompts' is configured to skip this
+   prompt, then the sorting is done according to the user option
+   `denote-sort-dired-default-reverse-sort', falling back to
+   nil (i.e. no reverse sort).
+
+4. EXCLUDE-REGEXP excludes the files that match the given regular
+   expression.  This is done after FILES-MATCHING-REGEXP and
+   OMIT-CURRENT have been applied.
+
+When called from Lisp, the arguments are a string, a symbol among
+`denote-sort-components', and a non-nil value, respectively.
+
+(fn FILES-MATCHING-REGEXP SORT-BY-COMPONENT REVERSE EXCLUDE-REGEXP)" t)
 (autoload 'denote "denote" "\
 Create a new note with the appropriate metadata and file name.
 
@@ -522,7 +566,11 @@ This lets the user complete a link through the `org-insert-link'
 interface by first selecting the `denote:' hyperlink type.")
 (autoload 'denote-link-ol-store "denote" "\
 Handler for `org-store-link' adding support for denote: links.
-Also see the user option `denote-org-store-link-to-heading'.")
+Optional INTERACTIVE? is used by `org-store-link'.
+
+Also see the user option `denote-org-store-link-to-heading'.
+
+(fn &optional INTERACTIVE?)")
 (autoload 'denote-link-ol-export "denote" "\
 Export a `denote:' link from Org files.
 The LINK, DESCRIPTION, and FORMAT are handled by the export
@@ -569,256 +617,6 @@ TEMPLATE as templates must exist and are specified in the user
 option `denote-templates'.
 
 (fn &optional TITLE KEYWORDS SUBDIRECTORY DATE TEMPLATE)")
-(register-definition-prefixes "denote" '("denote-"))
-
-
-;;; Generated autoloads from denote-journal-extras.el
-
-(autoload 'denote-journal-extras-new-entry "denote-journal-extras" "\
-Create a new journal entry in variable `denote-journal-extras-directory'.
-Use the variable `denote-journal-extras-keyword' as a keyword for the
-newly created file.  Set the title of the new entry according to the
-value of the user option `denote-journal-extras-title-format'.
-
-With optional DATE as a prefix argument, prompt for a date.  If
-`denote-date-prompt-use-org-read-date' is non-nil, use the Org
-date selection module.
-
-When called from Lisp DATE is a string and has the same format as
-that covered in the documentation of the `denote' function.  It
-is internally processed by `denote-valid-date-p'.
-
-(fn &optional DATE)" t)
-(autoload 'denote-journal-extras-path-to-new-or-existing-entry "denote-journal-extras" "\
-Return path to existing or new journal file.
-With optional DATE, do it for that date, else do it for today.  DATE is
-a string and has the same format as that covered in the documentation of
-the `denote' function.  It is internally processed by
-`denote-valid-date-p'.
-
-If there are multiple journal entries for the date, prompt for one among
-them using minibuffer completion.  If there is only one, return it.  If
-there is no journal entry, create it.
-
-(fn &optional DATE)")
-(autoload 'denote-journal-extras-new-or-existing-entry "denote-journal-extras" "\
-Locate an existing journal entry or create a new one.
-A journal entry is one that has the value of the variable
-`denote-journal-extras-keyword' as part of its file name.
-
-If there are multiple journal entries for the current date,
-prompt for one using minibuffer completion.  If there is only
-one, visit it outright.  If there is no journal entry, create one
-by calling `denote-journal-extra-new-entry'.
-
-With optional DATE as a prefix argument, prompt for a date.  If
-`denote-date-prompt-use-org-read-date' is non-nil, use the Org
-date selection module.
-
-When called from Lisp, DATE is a string and has the same format
-as that covered in the documentation of the `denote' function.
-It is internally processed by `denote-valid-date-p'.
-
-(fn &optional DATE)" t)
-(autoload 'denote-journal-extras-link-or-create-entry "denote-journal-extras" "\
-Use `denote-link' on journal entry, creating it if necessary.
-A journal entry is one that has the value of the variable
-`denote-journal-extras-keyword' as part of its file name.
-
-If there are multiple journal entries for the current date,
-prompt for one using minibuffer completion.  If there is only
-one, link to it outright.  If there is no journal entry, create one
-by calling `denote-journal-extra-new-entry' and link to it.
-
-With optional DATE as a prefix argument, prompt for a date.  If
-`denote-date-prompt-use-org-read-date' is non-nil, use the Org
-date selection module.
-
-When called from Lisp, DATE is a string and has the same format
-as that covered in the documentation of the `denote' function.
-It is internally processed by `denote-valid-date-p'.
-
-With optional ID-ONLY as a prefix argument create a link that
-consists of just the identifier.  Else try to also include the
-file's title.  This has the same meaning as in `denote-link'.
-
-(fn &optional DATE ID-ONLY)" t)
-(register-definition-prefixes "denote-journal-extras" '("denote-journal-extras-"))
-
-
-;;; Generated autoloads from denote-md-extras.el
-
-(autoload 'denote-md-extras-convert-links-to-file-paths "denote-md-extras" "\
-Convert denote: links to file paths.
-Ignore all other link types.  Also ignore links that do not
-resolve to a file in the variable `denote-directory'.
-
-With optional ABSOLUTE, format paths as absolute, otherwise do them
-relative to the variable `denote-directory'.
-
-(fn &optional ABSOLUTE)" '(markdown-mode))
-(autoload 'denote-md-extras-convert-links-to-denote-type "denote-md-extras" "\
-Convert generic file links to denote: links in the current Markdown buffer.
-Ignore all other link types.  Also ignore file links that do not point
-to a file with a Denote file name.
-
-Also see `denote-md-extras-convert-obsidian-links-to-denote-type'." '(markdown-mode))
-(autoload 'denote-md-extras-convert-links-to-obsidian-type "denote-md-extras" "\
-Convert denote: links to Obsidian-style file paths.
-Ignore all other link types.  Also ignore links that do not
-resolve to a file in the variable `denote-directory'." '(markdown-mode))
-(autoload 'denote-md-extras-convert-obsidian-links-to-denote-type "denote-md-extras" "\
-Convert Obsidian-style links to denote: links in the current Markdown buffer.
-Ignore all other link types.  Also ignore file links that do not point
-to a file with a Denote file name.
-
-Also see `denote-md-extras-convert-links-to-denote-type'." '(markdown-mode))
-(register-definition-prefixes "denote-md-extras" '("denote-md-extras--get-regexp"))
-
-
-;;; Generated autoloads from denote-org-extras.el
-
-(autoload 'denote-org-extras-link-to-heading "denote-org-extras" "\
-Link to file and then specify a heading to extend the link to.
-
-The resulting link has the following pattern:
-
-[[denote:IDENTIFIER::#ORG-HEADING-CUSTOM-ID]][Description::Heading text]].
-
-Because only Org files can have links to individual headings,
-limit the list of possible files to those which include the .org
-file extension (remember that Denote works with many file types,
-per the user option `denote-file-type').
-
-The user option `denote-org-extras-store-link-to-heading'
-determined whether the `org-store-link' function can save a link
-to the current heading.  Such links look the same as those of
-this command, though the functionality defined herein is
-independent of it.
-
-To only link to a file, use the `denote-link' command.
-
-Also see `denote-org-extras-backlinks-for-heading'." '(org-mode))
-(function-put 'denote-org-extras-link-to-heading 'interactive-only 't)
-(autoload 'denote-org-extras-backlinks-for-heading "denote-org-extras" "\
-Produce backlinks for the current heading.
-This otherwise has the same behaviour as `denote-backlinks'---refer to
-that for the details.
-
-Also see `denote-org-extras-link-to-heading'." t)
-(autoload 'denote-org-extras-extract-org-subtree "denote-org-extras" "\
-Create new Denote note using the current Org subtree as input.
-Remove the subtree from its current file and move its contents into a
-new Denote file (a subtree is a heading with all of its contents,
-including subheadings).
-
-Take the text of the subtree's top level heading and use it as the title
-of the new note.
-
-If the heading has any tags, use them as the keywords of the new note.
-If the Org file has any #+filetags use them as well (Org's filetags are
-inherited by the headings).  If none of these are true and the user
-option `denote-prompts' includes an entry for keywords, then prompt for
-keywords.  Else do not include any keywords.
-
-If the heading has a PROPERTIES drawer, retain it for further review.
-
-If the heading's PROPERTIES drawer includes a DATE or CREATED property,
-or there exists a CLOSED statement with a timestamp value, use that to
-derive the date (or date and time) of the new note (if there is only a
-date, the time is taken as 00:00).  If more than one of these is
-present, the order of preference is DATE, then CREATED, then CLOSED.  If
-none of these is present, use the current time.  If the `denote-prompts'
-includes an entry for a date, then prompt for a date at this stage (also
-see `denote-date-prompt-use-org-read-date').
-
-For the rest, consult the value of the user option `denote-prompts' in
-the following scenaria:
-
-- Optionally prompt for a subdirectory, otherwise produce the new note
-  in the variable `denote-directory'.
-
-- Optionally prompt for a file signature, otherwise do not use one.
-
-Make the new note an Org file regardless of the value of the user option
-`denote-file-type'." '(org-mode))
-(autoload 'denote-org-extras-convert-links-to-file-type "denote-org-extras" "\
-Convert denote: links to file: links in the current Org buffer.
-Ignore all other link types.  Also ignore links that do not
-resolve to a file in the variable `denote-directory'." '(org-mode))
-(autoload 'denote-org-extras-convert-links-to-denote-type "denote-org-extras" "\
-Convert file: links to denote: links in the current Org buffer.
-Ignore all other link types.  Also ignore file: links that do not
-point to a file with a Denote file name." '(org-mode))
-(autoload 'denote-org-extras-dblock-insert-links "denote-org-extras" "\
-Create Org dynamic block to insert Denote links matching REGEXP.
-
-(fn REGEXP)" '(org-mode))
-(eval-after-load 'org '(progn (org-dynamic-block-define "denote-links" 'denote-org-extras-dblock-insert-links)))
-(autoload 'org-dblock-write:denote-links "denote-org-extras" "\
-Function to update `denote-links' Org Dynamic blocks.
-Used by `org-dblock-update' with PARAMS provided by the dynamic block.
-
-(fn PARAMS)")
-(autoload 'denote-org-extras-dblock-insert-missing-links "denote-org-extras" "\
-Create Org dynamic block to insert Denote links matching REGEXP.
-
-(fn REGEXP)" '(org-mode))
-(eval-after-load 'org '(progn (org-dynamic-block-define "denote-missing-links" 'denote-org-extras-dblock-insert-missing-links)))
-(autoload 'org-dblock-write:denote-missing-links "denote-org-extras" "\
-Function to update `denote-links' Org Dynamic blocks.
-Used by `org-dblock-update' with PARAMS provided by the dynamic block.
-
-(fn PARAMS)")
-(autoload 'denote-org-extras-dblock-insert-backlinks "denote-org-extras" "\
-Create Org dynamic block to insert Denote backlinks to current file." '(org-mode))
-(eval-after-load 'org '(progn (org-dynamic-block-define "denote-backlinks" 'denote-org-extras-dblock-insert-backlinks)))
-(autoload 'org-dblock-write:denote-backlinks "denote-org-extras" "\
-Function to update `denote-backlinks' Org Dynamic blocks.
-Used by `org-dblock-update' with PARAMS provided by the dynamic block.
-
-(fn PARAMS)")
-(autoload 'denote-org-extras-dblock-insert-files "denote-org-extras" "\
-Create Org dynamic block to insert Denote files matching REGEXP.
-Sort the files according to SORT-BY-COMPONENT, which is a symbol
-among `denote-sort-components'.
-
-(fn REGEXP SORT-BY-COMPONENT)" '(org-mode))
-(eval-after-load 'org '(progn (org-dynamic-block-define "denote-files" 'denote-org-extras-dblock-insert-files)))
-(autoload 'org-dblock-write:denote-files "denote-org-extras" "\
-Function to update `denote-files' Org Dynamic blocks.
-Used by `org-dblock-update' with PARAMS provided by the dynamic block.
-
-(fn PARAMS)")
-(autoload 'denote-org-extras-dblock-insert-files-as-headings "denote-org-extras" "\
-Create Org dynamic block to insert Denote Org files matching REGEXP.
-
-Turn the #+title of each file into a top-level heading.  Then increment
-all original headings in the file by one, so that they become
-subheadings of what once was the #+title.
-
-Use the #+filetags of each file as tags for the top-level heading (what
-was the #+title).
-
-Sort the files according to SORT-BY-COMPONENT, which is a symbol
-among `denote-sort-components'.
-
-IMPORTANT NOTE: This dynamic block only works with Org files, because it
-has to assume the Org notation in order to insert each file's contents
-as its own heading.
-
-(fn REGEXP SORT-BY-COMPONENT)" '(org-mode))
-(eval-after-load 'org '(progn (org-dynamic-block-define "denote-files-as-headings" 'denote-org-extras-dblock-insert-files-as-headings)))
-(autoload 'org-dblock-write:denote-files-as-headings "denote-org-extras" "\
-Function to update `denote-files' Org Dynamic blocks.
-Used by `org-dblock-update' with PARAMS provided by the dynamic block.
-
-(fn PARAMS)")
-(register-definition-prefixes "denote-org-extras" '("denote-org-extras-"))
-
-
-;;; Generated autoloads from denote-rename-buffer.el
-
 (defvar denote-rename-buffer-mode nil "\
 Non-nil if Denote-Rename-Buffer mode is enabled.
 See the `denote-rename-buffer-mode' command
@@ -826,8 +624,8 @@ for a description of this minor mode.
 Setting this variable directly does not take effect;
 either customize it (see the info node `Easy Customization')
 or call the function `denote-rename-buffer-mode'.")
-(custom-autoload 'denote-rename-buffer-mode "denote-rename-buffer" nil)
-(autoload 'denote-rename-buffer-mode "denote-rename-buffer" "\
+(custom-autoload 'denote-rename-buffer-mode "denote" nil)
+(autoload 'denote-rename-buffer-mode "denote" "\
 Automatically rename Denote buffers to be easier to read.
 
 A buffer is renamed upon visiting the underlying file.  This
@@ -850,203 +648,7 @@ The mode's hook is called both when the mode is enabled and when it is
 disabled.
 
 (fn &optional ARG)" t)
-(register-definition-prefixes "denote-rename-buffer" '("denote-"))
-
-
-;;; Generated autoloads from denote-sequence.el
-
-(autoload 'denote-sequence "denote-sequence" "\
-Create a new sequence note of TYPE among `denote-sequence-types'.
-If TYPE is either `child' or `sibling', then it is an extension of
-FILE-WITH-SEQUENCE.
-
-When called interactively, prompt for TYPE and, when necessary, for
-FILE-WITH-SEQUENCE whose sequence will be used to derive a new sequence.
-Files available at the minibuffer prompt are those returned by
-`denote-sequence-get-all-files'.
-
-(fn TYPE &optional FILE-WITH-SEQUENCE)" t)
-(autoload 'denote-sequence-new-parent "denote-sequence" "\
-Like `denote-sequence' to directly create new parent." t)
-(autoload 'denote-sequence-new-sibling "denote-sequence" "\
-Like `denote-sequence' to directly create new sibling of SEQUENCE.
-When called interactively, SEQUENCE is a file among files in the variable
-`denote-directory' that have a sequence (per `denote-sequence-file-p').
-
-When called from Lisp, SEQUENCE is a string that conforms with
-`denote-sequence-p'.
-
-(fn SEQUENCE)" t)
-(autoload 'denote-sequence-new-sibling-of-current "denote-sequence" "\
-Create a new sibling sequence of the current file with SEQUENCE.
-If the current file does not have a sequence, then behave exactly like
-`denote-sequence-new-sibling'.
-
-(fn SEQUENCE)" t)
-(autoload 'denote-sequence-new-child "denote-sequence" "\
-Like `denote-sequence' to directly create new child of SEQUENCE.
-When called interactively, SEQUENCE is a file among files in the variable
-`denote-directory' that have a sequence (per `denote-sequence-file-p').
-
-When called from Lisp, SEQUENCE is a string that conforms with
-`denote-sequence-p'.
-
-(fn SEQUENCE)" t)
-(autoload 'denote-sequence-new-child-of-current "denote-sequence" "\
-Create a new child sequence of the current file with SEQUENCE.
-If the current file does not have a sequence, then behave exactly like
-`denote-sequence-new-child'.
-
-(fn SEQUENCE)" t)
-(autoload 'denote-sequence-find "denote-sequence" "\
-Find all relatives of the given TYPE using the current file's sequence.
-Prompt for TYPE among `denote-sequence-relative-types' and then prompt
-for a file among the matching files.
-
-(fn TYPE)" t)
-(autoload 'denote-sequence-link "denote-sequence" "\
-Link to FILE with sequence.
-This is like the `denote-link' command but only accepts to link to a
-file that conforms with `denote-sequence-file-p'.  When called
-interactively, only relevant files are shown for minibuffer completion
-from the variable `denote-directory'.
-
-Optional ID-ONLY has the same meaning as the `denote-link' command.
-
-(fn FILE &optional ID-ONLY)" t)
-(autoload 'denote-sequence-dired "denote-sequence" "\
-Produce a Dired listing of all sequence notes.
-Sort sequences from smallest to largest.
-
-With optional PREFIX string, show only files whose sequence matches it.
-
-With optional DEPTH as a number, limit the list to files whose sequence
-is that many levels deep.  For example, 1=1=2 is three levels deep.
-
-For a more specialised case, see `denote-sequence-find-relatives-dired'.
-
-(fn &optional PREFIX DEPTH)" t)
-(autoload 'denote-sequence-find-dired "denote-sequence" "\
-Like `denote-sequence-find' for TYPE but put the matching files in Dired.
-Also see `denote-sequence-dired'.
-
-(fn TYPE)" t)
-(autoload 'denote-sequence-reparent "denote-sequence" "\
-Re-parent the CURRENT-FILE to be a child of FILE-WITH-SEQUENCE.
-If CURRENT-FILE has a sequence (the Denote file name signature), change
-it.  Else create a new one.
-
-When called interactively, CURRENT-FILE is either the current file, or a
-special Org buffer (like those of `org-capture'), or the file at point in
-Dired.
-
-When called interactively, prompt for FILE-WITH-SEQUENCE showing only
-the files in the variable `denote-directory' which have a sequence.  If
-no such files exist, throw an error.
-
-When called from Lisp, CURRENT-FILE is a string pointing to a file.
-
-When called from Lisp, FILE-WITH-SEQUENCE is either a file with a
-sequence (per `denote-sequence-file-p') or the sequence string as
-such (per `denote-sequence-p').  In both cases, what matters is to know
-the target sequence.
-
-(fn CURRENT-FILE FILE-WITH-SEQUENCE)" t)
-(autoload 'denote-sequence-convert "denote-sequence" "\
-Convert the sequence scheme of FILES to match `denote-sequence-scheme'.
-When called from inside a Denote file, FILES is just the current file.
-When called from a Dired buffer, FILES are the marked files.  If no
-files are marked, then the one at point is considered.
-
-Do not make any changes if the file among the FILES has no sequence or
-if it already matches the value of `denote-sequence-scheme'.  A file has
-a sequence when it conforms with `denote-sequence-file-p'.
-
-This command is for users who once used a `denote-sequence-scheme' and
-have since decided to switch to another.  IT DOES NOT REPARENT OR ANYHOW
-CHECK THE RESULTING SEQUENCES FOR DUPLICATES.
-
-(fn FILES)" '(dired-mode))
-(register-definition-prefixes "denote-sequence" '("denote-sequence-"))
-
-
-;;; Generated autoloads from denote-silo-extras.el
-
-(autoload 'denote-silo-extras-create-note "denote-silo-extras" "\
-Select SILO and run `denote' in it.
-SILO is a file path from `denote-silo-extras-directories'.
-
-When called from Lisp, SILO is a file system path to a directory that
-conforms with `denote-silo-extras-path-is-silo-p'.
-
-(fn SILO)" t)
-(autoload 'denote-silo-extras-open-or-create "denote-silo-extras" "\
-Select SILO and run `denote-open-or-create' in it.
-SILO is a file path from `denote-silo-extras-directories'.
-
-When called from Lisp, SILO is a file system path to a directory that
-conforms with `denote-silo-extras-path-is-silo-p'.
-
-(fn SILO)" t)
-(autoload 'denote-silo-extras-select-silo-then-command "denote-silo-extras" "\
-Select SILO and run Denote COMMAND in it.
-SILO is a file path from `denote-silo-extras-directories', while
-COMMAND is one among `denote-silo-extras-commands'.
-
-When called from Lisp, SILO is a file system path to a directory that
-conforms with `denote-silo-extras-path-is-silo-p'.
-
-(fn SILO COMMAND)" t)
-(register-definition-prefixes "denote-silo-extras" '("denote-silo-extras-"))
-
-
-;;; Generated autoloads from denote-sort.el
-
-(autoload 'denote-sort-files "denote-sort" "\
-Returned sorted list of Denote FILES.
-
-With COMPONENT as a symbol among `denote-sort-components',
-sort files based on the corresponding file name component.
-
-With COMPONENT as the symbol of a function, use it to perform the
-sorting.  In this case, the function is called with two arguments, as
-described by `sort'.
-
-With COMPONENT as a nil value keep the original date-based
-sorting which relies on the identifier of each file name.
-
-With optional REVERSE as a non-nil value, reverse the sort order.
-
-(fn FILES COMPONENT &optional REVERSE)")
-(autoload 'denote-sort-dired "denote-sort" "\
-Produce Dired buffer with sorted files from variable `denote-directory'.
-When called interactively, prompt for FILES-MATCHING-REGEXP and,
-depending on the value of the user option `denote-sort-dired-extra-prompts',
-also prompt for SORT-BY-COMPONENT, REVERSE, and EXCLUDE-REGEXP.
-
-1. FILES-MATCHING-REGEXP limits the list of Denote files to
-   those matching the provided regular expression.
-
-2. SORT-BY-COMPONENT sorts the files by their file name component (one
-   among `denote-sort-components').  If it is nil, sorting is performed
-   according to the user option `denote-sort-dired-default-sort-component',
-   falling back to the identifier.
-
-3. REVERSE is a boolean to reverse the order when it is a non-nil value.
-   If `denote-sort-dired-extra-prompts' is configured to skip this
-   prompt, then the sorting is done according to the user option
-   `denote-sort-dired-default-reverse-sort', falling back to
-   nil (i.e. no reverse sort).
-
-4. EXCLUDE-REGEXP excludes the files that match the given regular
-   expression.  This is done after FILES-MATCHING-REGEXP and
-   OMIT-CURRENT have been applied.
-
-When called from Lisp, the arguments are a string, a symbol among
-`denote-sort-components', and a non-nil value, respectively.
-
-(fn FILES-MATCHING-REGEXP SORT-BY-COMPONENT REVERSE EXCLUDE-REGEXP)" t)
-(register-definition-prefixes "denote-sort" '("denote-sort-"))
+(register-definition-prefixes "denote" '("denote-"))
 
 ;;; End of scraped data
 

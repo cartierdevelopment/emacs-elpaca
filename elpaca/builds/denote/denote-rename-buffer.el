@@ -1,1 +1,0 @@
-/Users/paulcartier/.emacs.d/elpaca/repos/denote/denote-rename-buffer.el
