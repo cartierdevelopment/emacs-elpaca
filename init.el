@@ -420,6 +420,11 @@ e.g. Sunday, September 17, 2000."
 (global-set-key [f1] 'markdown-toggle-markup-hiding)
 (global-set-key [f7] 'org-tags-view)
 
+
+(global-set-key (kbd "C-c d") (lambda () 
+  (interactive)
+  (org-todo "DONE")))
+
 (global-set-key (kbd "C-c a") 'org-agenda)
 
 (custom-set-variables

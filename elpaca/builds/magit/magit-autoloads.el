@@ -857,13 +857,6 @@ Run `gitk' in the current repository." t)
 Run `gitk --branches' in the current repository." t)
 (autoload 'magit-run-gitk-all "magit-extras" "\
 Run `gitk --all' in the current repository." t)
-(autoload 'ido-enter-magit-status "magit-extras" "\
-Drop into `magit-status' from file switching.
-
-To make this command available use something like:
-
-  (keymap-set ido-common-completion-map
-              \"C-x g\" \\='ido-enter-magit-status)" t)
 (autoload 'magit-project-status "magit-extras" "\
 Run `magit-status' in the current project's root." t)
 (autoload 'magit-dired-jump "magit-extras" "\
@@ -1214,12 +1207,7 @@ Call \"git update-index --no-assume-unchanged -- FILE\".
 
  (autoload 'magit-log "magit-log" nil t)
  (autoload 'magit-log-refresh "magit-log" nil t)
-(autoload 'magit-log-current "magit-log" "\
-Show log for the current branch.
-When `HEAD' is detached or with a prefix argument show log for
-one or more revs read from the minibuffer.
-
-(fn REVS &optional ARGS FILES)" t)
+ (autoload 'magit-log-current "magit-log" nil t)
 (autoload 'magit-log-head "magit-log" "\
 Show log for `HEAD'.
 
@@ -1338,7 +1326,7 @@ inspect the merge and change the commit message.
 (git merge --no-commit --no-ff [ARGS] REV)
 
 (fn REV &optional ARGS)" t)
-(autoload 'magit-merge-into "magit-merge" "\
+(autoload 'magit-merge-dissolve "magit-merge" "\
 Merge the current branch into BRANCH and remove the former.
 
 Before merging, force push the source branch to its push-remote,

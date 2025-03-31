@@ -53,7 +53,7 @@ also prompt for SORT-BY-COMPONENT, REVERSE, and EXCLUDE-REGEXP.
    OMIT-CURRENT have been applied.
 
 When called from Lisp, the arguments are a string, a symbol among
-`denote-sort-components', and a non-nil value, respectively.
+`denote-sort-components', a non-nil value, and a string, respectively.
 
 (fn FILES-MATCHING-REGEXP SORT-BY-COMPONENT REVERSE EXCLUDE-REGEXP)" t)
 (autoload 'denote "denote" "\
@@ -435,13 +435,9 @@ the active region specially, is up to it.
 
 (fn FILE FILE-TYPE DESCRIPTION &optional ID-ONLY)" t)
 (autoload 'denote-find-link "denote" "\
-Use minibuffer completion to visit linked file." t)
+Use minibuffer completion to visit linked file.
+Also see `denote-find-backlink'." t)
 (function-put 'denote-find-link 'interactive-only 't)
-(autoload 'denote-find-backlink "denote" "\
-Use minibuffer completion to visit backlink to current file.
-
-Like `denote-find-link', but select backlink to follow." t)
-(function-put 'denote-find-backlink 'interactive-only 't)
 (autoload 'denote-link-after-creating "denote" "\
 Create new note in the background and link to it directly.
 
@@ -498,16 +494,74 @@ is non-nil.
 
 Place the buffer below the current window or wherever the user option
 `denote-backlinks-display-buffer-action' specifies." t)
+(autoload 'denote-find-backlink "denote" "\
+Use minibuffer completion to visit backlink to current file.
+Alo see `denote-find-link'." t)
+(function-put 'denote-find-backlink 'interactive-only 't)
+(autoload 'denote-query-contents-link "denote" "\
+Insert query link for file contents.
+Prompt for QUERY or use the text of the active region.  When the user
+follows this link, place any matches in a separate buffer (using the
+built-in Xref mechanism).  This is the equivalent of a Unix grep command
+across the variable `denote-directory'.
+
+(fn QUERY)" t)
+(autoload 'denote-query-filenames-link "denote" "\
+Insert query link for file names.
+Prompt for QUERY or use the text of the active region.  When the user
+follows this link, place any matches in a separate buffer (using the
+built-in Dired mechanism).  This is the equivalent of a Unix find
+command across the variable `denote-directory'.
+
+(fn QUERY)" t)
+(autoload 'denote-fontify-links-mode-maybe "denote" "\
+Enable `denote-fontify-links-mode' in a denote file unless in `org-mode'.")
+(autoload 'denote-fontify-links-mode "denote" "\
+A minor mode to fontify and fold Denote links.
+
+Enabled this mode only when the current buffer is a Denote note and the
+major mode is not `org-mode' (or derived therefrom).  Consider using
+`denote-fontify-links-mode-maybe' for this purpose.
+
+This is a minor mode.  If called interactively, toggle the
+`Denote-Fontify-Links mode' mode.  If the prefix argument is positive,
+enable the mode, and if it is zero or negative, disable the mode.
+
+If called from Lisp, toggle the mode if ARG is `toggle'.  Enable the
+mode if ARG is nil, omitted, or is a positive number.  Disable the mode
+if ARG is a negative number.
+
+To check whether the minor mode is enabled in the current buffer,
+evaluate the variable `denote-fontify-links-mode'.
+
+The mode's hook is called both when the mode is enabled and when it is
+disabled.
+
+(fn &optional ARG)" t)
 (autoload 'denote-add-links "denote" "\
-Insert links to all notes matching REGEXP.
-Use this command to reference multiple files at once.
-Particularly useful for the creation of metanotes (read the
-manual for more on the matter).
+Insert links to all files whose file names match REGEXP.
+Use this command to reference multiple files at once.  Particularly
+useful for the creation of metanotes (read the manual for more on the
+matter).
 
 Optional ID-ONLY has the same meaning as in `denote-link': it
 inserts links with just the identifier.
 
 (fn REGEXP &optional ID-ONLY)" t)
+(autoload 'denote-link-to-file-with-contents "denote" "\
+Link to a file whose contents match QUERY.
+This is similar to `denote-link', except that the file prompt is limited
+to files matching QUERY.  Optional ID-ONLY has the same meaning as in
+`denote-link'.
+
+(fn QUERY &optional ID-ONLY)" t)
+(autoload 'denote-link-to-all-files-with-contents "denote" "\
+Link to all files whose contents match QUERY.
+This is similar to `denote-add-links', except it searches inside file
+contents, not file names.  Optional ID-ONLY has the same meaning as in
+`denote-link' and `denote-add-links'.
+
+(fn QUERY &optional ID-ONLY)" t)
 (autoload 'denote-link-dired-marked-notes "denote" "\
 Insert Dired marked FILES as links in BUFFER.
 
@@ -552,12 +606,15 @@ disabled.
 (fn &optional ARG)" t)
 (autoload 'denote-link-ol-follow "denote" "\
 Find file of type `denote:' matching LINK.
-LINK is the identifier of the note, optionally followed by a
-query option akin to that of standard Org `file:' link types.
-Read Info node `(org) Query Options'.
+LINK is the identifier of the note, optionally followed by a file search
+option akin to that of standard Org `file:' link types.  Read Info
+node `(org) Query Options'.
 
-Uses the function `denote-directory' to establish the path to the
-file.
+If LINK is not an identifier, then it is not pointing to a file but to a
+query of file contents or file names (see the commands
+`denote-query-contents-link' and `denote-query-filenames-link').
+
+Uses the function `denote-directory' to establish the path to the file.
 
 (fn LINK)")
 (autoload 'denote-link-ol-complete "denote" "\
@@ -577,7 +634,7 @@ The LINK, DESCRIPTION, and FORMAT are handled by the export
 backend.
 
 (fn LINK DESCRIPTION FORMAT)")
-(eval-after-load 'org `(funcall ',(lambda nil (with-no-warnings (org-link-set-parameters "denote" :follow #'denote-link-ol-follow :face 'denote-faces-link :help-echo #'denote-link-ol-help-echo :complete #'denote-link-ol-complete :store #'denote-link-ol-store :export #'denote-link-ol-export)))))
+(eval-after-load 'org `(funcall ',(lambda nil (with-no-warnings (org-link-set-parameters "denote" :follow #'denote-link-ol-follow :face #'denote-get-link-face :help-echo #'denote-link-ol-help-echo :complete #'denote-link-ol-complete :store #'denote-link-ol-store :export #'denote-link-ol-export)))))
 (autoload 'denote-org-capture "denote" "\
 Create new note through `org-capture-templates'.
 Use this as a function that returns the path to the new file.
