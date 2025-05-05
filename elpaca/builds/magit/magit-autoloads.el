@@ -145,9 +145,7 @@ the output in the kill ring.
 
 ;;; Generated autoloads from magit-apply.el
 
-(autoload 'magit-stage-buffer-file "magit-apply" "\
-Stage all changes to the file being visited in the current buffer." t)
-(autoload 'magit-stage-file "magit-apply" "\
+(autoload 'magit-stage-files "magit-apply" "\
 Read one or more files and stage all changes in those files.
 With prefix argument FORCE, offer ignored files for completion.
 
@@ -160,9 +158,7 @@ With a prefix argument also stage previously untracked (but not
 ignored) files.
 
 (fn &optional ALL)" t)
-(autoload 'magit-unstage-buffer-file "magit-apply" "\
-Unstage all changes to the file being visited in the current buffer." t)
-(autoload 'magit-unstage-file "magit-apply" "\
+(autoload 'magit-unstage-files "magit-apply" "\
 Read one or more files and unstage all changes to those files.
 
 (fn FILES)" t)
@@ -429,14 +425,15 @@ the remote.
 (fn OLD NEW &optional FORCE)" t)
 (autoload 'magit-branch-shelve "magit-branch" "\
 Shelve a BRANCH.
-Rename \"refs/heads/BRANCH\" to \"refs/shelved/BRANCH\",
+Rename \"refs/heads/BRANCH\" to \"refs/shelved/YYYY-MM-DD-BRANCH\",
 and also rename the respective reflog file.
 
 (fn BRANCH)" t)
 (autoload 'magit-branch-unshelve "magit-branch" "\
 Unshelve a BRANCH.
-Rename \"refs/shelved/BRANCH\" to \"refs/heads/BRANCH\",
-and also rename the respective reflog file.
+Rename \"refs/shelved/BRANCH\" to \"refs/heads/BRANCH\".  If BRANCH
+is prefixed with \"YYYY-MM-DD\", then drop that part of the name.
+Also rename the respective reflog file.
 
 (fn BRANCH)" t)
  (autoload 'magit-branch-configure "magit-branch" nil t)
@@ -750,6 +747,35 @@ for a revision.
 (register-definition-prefixes "magit-diff" '("magit-"))
 
 
+;;; Generated autoloads from magit-dired.el
+
+(autoload 'magit-dired-jump "magit-dired" "\
+Visit file at point using Dired.
+With a prefix argument, visit in another window.  If there
+is no file at point, then instead visit `default-directory'.
+
+(fn &optional OTHER-WINDOW)" t)
+(autoload 'magit-dired-stage "magit-dired" "\
+In Dired, staged all marked files or the file at point." t)
+(autoload 'magit-dired-unstage "magit-dired" "\
+In Dired, unstaged all marked files or the file at point." t)
+(autoload 'magit-dired-log "magit-dired" "\
+In Dired, show log for all marked files or the directory if none are marked.
+
+(fn &optional FOLLOW)" t)
+(autoload 'magit-dired-am-apply-patches "magit-dired" "\
+In Dired, apply the marked (or next ARG) files as patches.
+If inside a repository, then apply in that.  Otherwise prompt
+for a repository.
+
+(fn REPO &optional ARG)" t)
+(autoload 'magit-do-async-shell-command "magit-dired" "\
+Open FILE with `dired-do-async-shell-command'.
+Interactively, open the file at point.
+
+(fn FILE)" t)
+
+
 ;;; Generated autoloads from magit-ediff.el
 
  (autoload 'magit-ediff "magit-ediff" nil)
@@ -859,27 +885,6 @@ Run `gitk --branches' in the current repository." t)
 Run `gitk --all' in the current repository." t)
 (autoload 'magit-project-status "magit-extras" "\
 Run `magit-status' in the current project's root." t)
-(autoload 'magit-dired-jump "magit-extras" "\
-Visit file at point using Dired.
-With a prefix argument, visit in another window.  If there
-is no file at point, then instead visit `default-directory'.
-
-(fn &optional OTHER-WINDOW)" t)
-(autoload 'magit-dired-log "magit-extras" "\
-Show log for all marked files, or the current file.
-
-(fn &optional FOLLOW)" t)
-(autoload 'magit-dired-am-apply-patches "magit-extras" "\
-In Dired, apply the marked (or next ARG) files as patches.
-If inside a repository, then apply in that.  Otherwise prompt
-for a repository.
-
-(fn REPO &optional ARG)" t)
-(autoload 'magit-do-async-shell-command "magit-extras" "\
-Open FILE with `dired-do-async-shell-command'.
-Interactively, open the file at point.
-
-(fn FILE)" t)
 (autoload 'magit-previous-line "magit-extras" "\
 Like `previous-line' but with Magit-specific shift-selection.
 
@@ -1145,6 +1150,31 @@ the line and column corresponding to that location.
 View the file from the worktree corresponding to the current blob.
 When visiting a blob or the version from the index, then go to
 the same location in the respective file in the working tree." t)
+(autoload 'magit-file-stage "magit-files" "\
+Stage all changes to the file being visited in the current buffer." t)
+(autoload 'magit-file-unstage "magit-files" "\
+Unstage all changes to the file being visited in the current buffer." t)
+(autoload 'magit-file-untrack "magit-files" "\
+Untrack the selected FILES or one file read in the minibuffer.
+
+With a prefix argument FORCE do so even when the files have
+staged as well as unstaged changes.
+
+(fn FILES &optional FORCE)" t)
+(autoload 'magit-file-rename "magit-files" "\
+Rename or move FILE to NEWNAME.
+NEWNAME may be a file or directory name.  If FILE isn't tracked in
+Git, fallback to using `rename-file'.
+
+(fn FILE NEWNAME)" t)
+(autoload 'magit-file-delete "magit-files" "\
+Delete the selected FILES or one file read in the minibuffer.
+
+With a prefix argument FORCE do so even when the files have
+uncommitted changes.  When the files aren't being tracked in
+Git, then fallback to using `delete-file'.
+
+(fn FILES &optional FORCE)" t)
 (autoload 'magit-file-checkout "magit-files" "\
 Checkout FILE from REV.
 
@@ -1742,8 +1772,11 @@ Start an interactive rebase sequence.
 (fn COMMIT ARGS)" t)
 (autoload 'magit-rebase-autosquash "magit-sequence" "\
 Combine squash and fixup commits with their intended targets.
+By default only squash into commits that are not reachable from
+the upstream branch.  If no upstream is configured or with a prefix
+argument, prompt for the first commit to potentially squash into.
 
-(fn ARGS)" t)
+(fn SELECT ARGS)" t)
 (autoload 'magit-rebase-edit-commit "magit-sequence" "\
 Edit a single older commit using rebase.
 

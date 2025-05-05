@@ -485,6 +485,37 @@ consists of just the identifier.  Else try to also include the
 file's title.  This has the same meaning as in `denote-link'.
 
 (fn TARGET &optional ID-ONLY)" t)
+(autoload 'denote-grep "denote" "\
+Search QUERY in the content of Denote files.
+QUERY should be a regular expression accepted by `xref-search-program'.
+
+The files to search for are those returned by `denote-directory-files'
+with a non-nil TEXT-ONLY argument.
+
+Results are put in a buffer which allows folding and further
+filtering (see the manual for details).
+
+You can insert a link to a grep search in any note by using the command
+`denote-query-contents-link'.
+
+(fn QUERY)" t)
+(autoload 'denote-grep-marked-dired-files "denote" "\
+Do the equivalent of `denote-grep' for QUERY in marked Dired files.
+
+(fn QUERY)" t)
+(autoload 'denote-grep-files-referenced-in-region "denote" "\
+Perform `denote-grep' QUERY in files referenced between START and END.
+When called interactively, prompt for QUERY.  Also get START and END as
+the buffer positions that delimit the marked region.  When called from
+Lisp, QUERY is a string, while START and END are buffer positions, as
+integers.
+
+Find references to files by their identifier.  This includes links with
+just the identifier (as described in `denote-link' and related), links
+written by an Org dynamic block (see the `denote-org' package), or even
+file listings such as those of `dired' and the command-line `ls' program.
+
+(fn QUERY START END)" t)
 (autoload 'denote-backlinks "denote" "\
 Produce a buffer with backlinks to the current note.
 
@@ -496,8 +527,14 @@ Place the buffer below the current window or wherever the user option
 `denote-backlinks-display-buffer-action' specifies." t)
 (autoload 'denote-find-backlink "denote" "\
 Use minibuffer completion to visit backlink to current file.
+Visit the file itself, not the location where the link is.  For a
+context-sensitive operation, use `denote-find-backlink-with-location'.
+
 Alo see `denote-find-link'." t)
 (function-put 'denote-find-backlink 'interactive-only 't)
+(autoload 'denote-find-backlink-with-location "denote" "\
+Like `denote-find-backlink' but jump to the exact location of the link." t)
+(function-put 'denote-find-backlink-with-location 'interactive-only 't)
 (autoload 'denote-query-contents-link "denote" "\
 Insert query link for file contents.
 Prompt for QUERY or use the text of the active region.  When the user

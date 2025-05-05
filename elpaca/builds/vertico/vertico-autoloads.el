@@ -312,6 +312,15 @@ disabled.
 (register-definition-prefixes "vertico-reverse" '("vertico-reverse-map"))
 
 
+;;; Generated autoloads from vertico-sort.el
+
+ (autoload 'vertico-sort-history-length-alpha "vertico-sort")
+ (autoload 'vertico-sort-history-alpha "vertico-sort")
+ (autoload 'vertico-sort-length-alpha "vertico-sort")
+ (autoload 'vertico-sort-alpha "vertico-sort")
+(register-definition-prefixes "vertico-sort" '("vertico-sort-"))
+
+
 ;;; Generated autoloads from vertico-suspend.el
 
 (autoload 'vertico-suspend "vertico-suspend" "\

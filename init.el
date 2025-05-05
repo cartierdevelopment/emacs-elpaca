@@ -1,7 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
-
-(defvar elpaca-installer-version 0.10)
+(defvar elpaca-installer-version 0.11)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
 (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
@@ -36,13 +35,9 @@
   (unless (require 'elpaca-autoloads nil t)
     (require 'elpaca)
     (elpaca-generate-autoloads "elpaca" repo)
-    (load "./elpaca-autoloads")))
+    (let ((load-source-file-function nil)) (load "./elpaca-autoloads"))))
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
-
-(elpaca elpaca-use-package
-  (elpaca-use-package-mode))
-(setq use-package-always-ensure t)
 
 ;; Save the command history
 (savehist-mode 1)
@@ -68,17 +63,31 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 ;;(load-theme 'dracula t)
 
-(elpaca ef-themes
-  :config
-  (load-theme 'ef-maris-light t))
+; (elpaca ef-themes
+;   :config
+;   (load-theme 'ef-maris-light t))
 
-;;(elpaca spacious-padding
-;;  (spacious-padding-mode 1))
+
+;;; For packaged versions which must use `require'.
+(elpaca modus-themes
+  :ensure t
+  :config
+  ;; Add all your customizations prior to loading the themes
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs nil)
+
+  ;; Load the theme of your choice.
+  (load-theme 'modus-operandi)
+
+  (define-key global-map (kbd "<f5>") #'modus-themes-toggle))
+
+(elpaca spacious-padding
+  (spacious-padding-mode 1))
 
 ;; Paid font
 (set-face-attribute 'default nil
                     :family "Berkeley Mono"
-                    :height 160
+                    :height 170
                     :weight 'normal)
 
 (elpaca exec-path-from-shell
@@ -272,7 +281,117 @@
   :config
   ;; General Org settings.
   (setq org-agenda-files '("~/org/tasks.org"))  ; Set specific agenda file
-  (setq org-todo-keywords '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCEL(c!)" "DONE(d!)" "BACKLOG(b!)"))))
+  (setq org-todo-keywords '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCEL(c!)" "DONE(d!)" "BACKLOG(b!)")))
+
+
+(setopt org-agenda-remove-tags t)
+(setopt org-agenda-restore-windows-after-quit t)
+(setopt org-agenda-show-inherited-tags nil)
+(setopt org-agenda-skip-deadline-if-done t)
+(setopt org-agenda-skip-scheduled-if-done t)
+(setopt org-agenda-skip-timestamp-if-done t)
+(setopt org-agenda-sorting-strategy
+	'((agenda time-up deadline-up scheduled-up todo-state-up priority-down)
+	  (todo todo-state-down priority-down deadline-up)
+	  (tags todo-state-down priority-down deadline-up)
+	  (search todo-state-down priority-down deadline-up)))
+(setopt org-agenda-tags-todo-honor-ignore-options t)
+(setopt org-agenda-use-tag-inheritance nil)
+(setopt org-agenda-window-frame-fractions '(0.0 . 0.5))
+(setopt org-agenda-deadline-faces
+	'((1.0001 . org-warning)              ; due yesterday or before
+	  (0.0    . org-upcoming-deadline)))  ; due today or later
+
+
+
+  (setopt org-todo-keywords
+  '((sequence "ONGO(o)" "TODO(t)" "PLAN(p)" "WAIT(w)" "|" "DONE(d)" "SKIP(s)")))
+  (setopt org-tag-alist
+	'((:startgroup)
+	  ("Handson" . ?o)
+	  (:grouptags)
+	  ("Write" . ?w) ("Code" . ?c)
+	  (:endgroup)
+
+	  (:startgroup)
+	  ("Handsoff" . ?f)
+	  (:grouptags)
+	  ("Read" . ?r) ("Watch" . ?W) ("Listen" . ?l)
+	  (:endgroup)))
+
+
+
+(let ((org-agenda-week-span 7)
+      (default-grid '((org-agenda-use-time-grid nil)))
+      (ignore-appt '((org-agenda-category-filter-preset '("-RDV" "-RDL"))
+                     (org-agenda-use-time-grid nil)))
+      (work-only '((org-agenda-category-filter-preset '("+MLL"))))
+      (nonwork-only '((org-agenda-category-filter-preset '("-MLL")))))
+
+  (setopt org-agenda-custom-commands
+          `(
+            ;; 📁 Archiving
+            ("#" "Archive candidates" todo "DONE|SKIP")
+
+            ;; 🧠 Ongoing Tasks: Hands-on vs Hands-off
+            ("A" "Hands-on (Write/Code)" tags-todo "+TAGS={Write\\|Code}+TODO=\"ONGO\"")
+            ("Z" "Hands-off (Read/Listen/Watch)" tags-todo "+TAGS={Read\\|Listen\\|Watch}+TODO=\"ONGO\"")
+
+            ;; 📆 Weekly Appointments
+            ("$" "Appointments this week" agenda* "")
+
+            ;; 📌 Scheduled/Deadline Tasks This Week
+            ("ù" . "This week's scheduled/deadline tasks")
+            ("ùù" "All non-appt tasks" agenda "" ,ignore-appt)
+            ("ù," "Work-related tasks (MLL)" agenda "" ,(append work-only ignore-appt))
+            ("ù?" "Personal tasks (-MLL)" agenda "" ,(append nonwork-only ignore-appt))
+
+            ;; 🔜 Ongoing & TODOs
+            ("*" . "Next Actions")
+            ("**" "All ONGO/TODO" tags-todo "TODO={ONGO\\|TODO}")
+            ("*," "Work ONGO/TODO (MLL)" tags-todo "TODO={ONGO\\|TODO}" ,work-only)
+            ("*?" "Personal ONGO/TODO (-MLL)" tags-todo "TODO={ONGO\\|TODO}" ,nonwork-only)
+
+            ;; 📝 PLAN tasks with no SCHEDULED/DEADLINE
+            (";" . "Planning Ahead")
+            (";;" "All PLAN (unscheduled)" tags-todo "TODO=\"PLAN\"+DEADLINE=\"\"+SCHEDULED=\"\"")
+            (";," "Work PLAN (MLL)" tags-todo "TODO=\"PLAN\"+DEADLINE=\"\"+SCHEDULED=\"\"" ,work-only)
+            (";?" "Personal PLAN (-MLL)" tags-todo "TODO=\"PLAN\"+DEADLINE=\"\"+SCHEDULED=\"\"" ,nonwork-only)
+
+            ;; ⏳ WAIT tasks with no SCHEDULED/DEADLINE
+            (":" . "Waiting On")
+            ("::" "All WAIT (unscheduled)" tags-todo "TODO=\"WAIT\"+DEADLINE=\"\"+SCHEDULED=\"\"")
+            (":," "Work WAIT (MLL)" tags-todo "TODO=\"WAIT\"+DEADLINE=\"\"+SCHEDULED=\"\"" ,work-only)
+            (":?" "Personal WAIT (-MLL)" tags-todo "TODO=\"WAIT\"+DEADLINE=\"\"+SCHEDULED=\"\"" ,nonwork-only)
+
+            ;; ⏰ Upcoming Deadlines (60d window)
+            ("!" . "Deadline Radar")
+            ("!!" "All deadlines" agenda ""
+             ((org-agenda-span 1)
+              (org-deadline-warning-days 60)
+              (org-agenda-entry-types '(:deadline))))
+            ("!," "Work deadlines (MLL)" agenda ""
+             ((org-agenda-span 1)
+              (org-agenda-category-filter-preset '("+MLL"))
+              (org-deadline-warning-days 60)
+              (org-agenda-entry-types '(:deadline))))
+            ("!?" "Personal deadlines (-MLL)" agenda ""
+             ((org-agenda-span 1)
+              (org-agenda-category-filter-preset '("-MLL"))
+              (org-deadline-warning-days 60)
+              (org-agenda-entry-types '(:deadline))))
+            )))
+
+            (setopt org-agenda-sorting-strategy
+            '((agenda time-up deadline-up scheduled-up todo-state-up priority-down)
+            (todo todo-state-up priority-down deadline-up)
+            (tags todo-state-up priority-down deadline-up)
+            (search todo-state-up priority-down deadline-up)))
+)
+
+
+;; end of new config.
+
 
 (use-package org-capture
   :ensure nil
@@ -289,15 +408,19 @@
             ":END:\n\n"
             "%a\n%i%?"))
 
-  (setq org-capture-templates
-        `(("u" "Unprocessed" entry
-           (file+headline "~/org/tasks.org" "Unprocessed")
-           ,(my/org-capture-template "TODO %^{Title} %^g")
-           :empty-lines-after 1)
-          ("w" "Wishlist" entry
-           (file+olp "~/org/tasks.org" ("Wishlist"))
-           ,(my/org-capture-template "WAIT %^{Title} %^g")
-           :empty-lines-after 1))))
+(setopt org-capture-templates
+	'(("r" "RDV Perso" entry (file+headline "~/org/tasks.org" "RDV Perso")
+	   "* RDV avec %:fromname %?\n  SCHEDULED: %^T\n  :PROPERTIES:\n  :CAPTURED: %U\n  :END:\n\n- %a" :prepend t)
+	  ("!" "RDV MLL" entry (file+headline "~/org/tasks.org" "RDV MLL")
+	   "* RDV avec %:fromname %?\n  SCHEDULED: %^T\n  :PROPERTIES:\n  :CAPTURED: %U\n  :END:\n\n- %a" :prepend t)
+	  ("d" "Divers" entry (file+headline "~/org/tasks.org" "Divers")
+	   "* TODO %?\n  :PROPERTIES:\n  :CAPTURED: %U\n  :END:\n\n- %a" :prepend t)
+	  ("D" "Divers (read)" entry (file+headline "~/org/tasks.org" "Divers")
+	   "* TODO %a :Read:" :prepend t :immediate-finish t)
+	  ("m" "Mission" entry (file+headline "~/org/tasks.org" "Mission")
+	   "* TODO %?\n  :PROPERTIES:\n  :CAPTURED: %U\n  :END:\n\n- %a\n\n%i" :prepend t)
+	  ("M" "Mission (read)" entry (file+headline "~/org/tasks.org" "Mission")
+	   "* TODO %a :Read" :prepend t :immediate-finish t))))
 
 (use-package markdown-mode
   :ensure t
@@ -306,19 +429,19 @@
   (setq markdown-command "multimarkdown"))
 
 
-(use-package howm
-  :ensure t
-  :init
-  (setq howm-directory "~/org/howm")
-  ;; What format to use for the files?
-  (setq howm-file-name-format "%Y-%m-%d-%H%M%S.md")
-  (setq howm-view-title-header "*")
-  (setq howm-dtime-format "<%Y-%m-%d %a %H:%M>")
-  ;; Avoid conflicts with Org-mode by changing Howm's prefix from "C-c ,".
-  (setq howm-prefix (kbd "C-c ;")))
+;;(use-package howm
+;;  :ensure t
+;;  :init
+;;  (setq howm-directory "~/org/howm")
+;;  ;; What format to use for the files?
+;;  (setq howm-file-name-format "%Y-%m-%d-%H%M%S.md")
+;;  (setq howm-view-title-header "*")
+;;  (setq howm-dtime-format "<%Y-%m-%d %a %H:%M>")
+;;  ;; Avoid conflicts with Org-mode by changing Howm's prefix from "C-c ,".
+;;  (setq howm-prefix (kbd "C-c ;")))
 
 ;; Keep one window after "1" key in the summary buffer.
-(setq howm-view-keep-one-window t)
+;;(setq howm-view-keep-one-window t)
 
 ;; Use ripgrep as grep
   (setq howm-view-use-grep t)
@@ -377,27 +500,27 @@
   ;; Rename Denote buffers dynamically
   (denote-rename-buffer-mode 1))
 
-(elpaca
-  (denote-search
-    :url "https://github.com/lmq-10/denote-search"
-    :ref :newest
-    :bind
-    (("C-c s s" . denote-search)
-     ("C-c s d" . denote-search-marked-dired-files)
-     ("C-c s r" . denote-search-files-referenced-in-region))
-    :custom
-    (denote-search-format-heading-function #'denote-search-format-heading-with-keywords)))
+;;(elpaca
+;;  (denote-search
+;;    :url "https://github.com/lmq-10/denote-search"
+;;    :ref :newest
+;;    :bind
+;;    (("C-c s s" . denote-search)
+;;     ("C-c s d" . denote-search-marked-dired-files)
+;;     ("C-c s r" . denote-search-files-referenced-in-region))
+;;    :custom
+;;    (denote-search-format-heading-function #'denote-search-format-heading-with-keywords)))
 
-(use-package denote-menu
-  :ensure t
-  :bind (("C-c z" . list-denotes)
-         :map denote-menu-mode-map
-         ("c" . denote-menu-clear-filters)
-         ("/ r" . denote-menu-filter)
-         ("/ k" . denote-menu-filter-by-keyword)
-         ("/ o" . denote-menu-filter-out-keyword)
-         ("e" . denote-menu-export-to-dired)))
-
+;;(use-package denote-menu
+;;  :ensure t
+;;  :bind (("C-c z" . list-denotes)
+;;         :map denote-menu-mode-map
+;;         ("c" . denote-menu-clear-filters)
+;;         ("/ r" . denote-menu-filter)
+;;         ("/ k" . denote-menu-filter-by-keyword)
+;;         ("/ o" . denote-menu-filter-out-keyword)
+;;         ("e" . denote-menu-export-to-dired)))
+;;
 (elpaca gptel
 )
 
@@ -432,7 +555,10 @@ e.g. Sunday, September 17, 2000."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(denote-search eglot))
+ '(custom-safe-themes
+   '("5e39e95c703e17a743fb05a132d727aa1d69d9d2c9cde9353f5350e545c793d4"
+     "fbf73690320aa26f8daffdd1210ef234ed1b0c59f3d001f342b9c0bbf49f531c" default))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
    '((denote-search :url "https://github.com/lmq-10/denote-search"))))
 (custom-set-faces
